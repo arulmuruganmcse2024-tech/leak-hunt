@@ -6,6 +6,11 @@ checks the meter. When water keeps moving with every tap off, or the home keeps 
 "process of elimination" into an assistant-led, repeatable investigation: it asks before it acts, switches pipes or plugs under
 supervision, says plainly what it cannot see, and keeps a record that can be replayed.**
 
+[![Leak Hunt, the film (2:56): watch on YouTube](docs/film_thumbnail.jpg)](https://youtu.be/2EoreksaOb4)
+
+**Watch the film (2:56):** https://youtu.be/2EoreksaOb4 · illustrated scenes of a home in 2030, and screen recordings of the real add-on running on a
+simulated house ([shot list](docs/DEMO.md)).
+
 **Start here:** [one page: what it is, what is real, what is simulated](docs/SUBMISSION.md) · [the four rules Alexa follows when
 she touches water](docs/RULES.md) · [run it and try to fool it](#try-to-fool-it) · [how every claim is checked](docs/VERIFICATION.md)
 · [what is not known](docs/HONEST_UNKNOWNS.md)

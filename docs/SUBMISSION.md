@@ -171,7 +171,7 @@ software; the README lists what a pass does not prove and the bench tests that r
 
 * Repository: https://github.com/arulmuruganmcse2024-tech/leak-hunt (public, MIT licence in the root)
 * pipehub-conformance: https://github.com/arulmuruganmcse2024-tech/pipehub-conformance (its own public repository, MIT licence in the root)
-* Video: _to fill_ (under 3 minutes, English, public on YouTube or Vimeo, no third-party logos or music)
+* Video: https://youtu.be/2EoreksaOb4 (2:56, English, public on YouTube, no third-party logos or music)
 
 ---
 

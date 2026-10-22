@@ -1,5 +1,7 @@
 # The film (2:56.2; the rules allow under 3:00)
 
+**Watch it:** https://youtu.be/2EoreksaOb4
+
 The rules ask for an English video under three minutes that shows the project on its device **or a simulated Alexa+ experience**.
 The official FAQ says participants cannot get the Alexa+ toolkit or simulator. The film therefore has two kinds of shot, and every
 shot is labelled on screen:
