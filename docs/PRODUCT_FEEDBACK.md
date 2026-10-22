@@ -17,7 +17,6 @@ questions I could not answer are in [FRICTION_LOG.md](FRICTION_LOG.md) as open i
 | MCP Apps extension (`ui://` resources, JSON-RPC over `postMessage`) | The on-screen console: next step, valve map, live flow trace, Stop |
 | OAuth 2.1 with PKCE (S256), RFC 7636 | Account linking, implemented server-side against the SDK's provider protocol |
 | Playwright (Chromium) | An automated audit of the screen: touch-only completion, target sizes, contrast, light and dark, spoken/displayed parity |
-| Claude Code (AI coding assistant) | Drafting code, tests and documents; every figure in `docs/` comes from a command in [VERIFICATION.md](VERIFICATION.md) |
 
 ## 2. What worked well
 

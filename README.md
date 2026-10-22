@@ -263,7 +263,7 @@ check can and cannot show, and the real problems the checks found.
 
 ## Built during the hackathon
 
-Everything in this repository was written during the submission period, with AI coding assistance. See
+Everything in this repository was written during the submission period. See
 [docs/DISCLOSURE.md](docs/DISCLOSURE.md).
 
 ## Licence

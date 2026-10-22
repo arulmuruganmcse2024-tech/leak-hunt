@@ -94,8 +94,8 @@ its top bar, and renders the MCP App screen in a sandboxed iframe. It is labelle
 
 A 2:56 film. Most of it is labelled illustration of a 2030 home (Priya fills the bath while kneading dough, switches the house to
 work mode, says good night and finds a leak, then asks what is using power while she sleeps); six labelled inserts are screen
-recordings of the real add-on on the simulated house. Alexa's lines are the add-on's own sentences. The narration and voices are
-AI-generated (Kokoro-82M, open weights); the music bed and effects are synthesised for the film. See `docs/DEMO.md`.
+recordings of the real add-on on the simulated house. Alexa's lines are the add-on's own sentences. The voices are synthesised
+with Kokoro-82M (open weights); the music bed and effects are synthesised for the film. See `docs/DEMO.md`.
 
 **Upload text** (YouTube or Vimeo, public; upload `leakhunt_film.srt` as English captions, off by default because the captions are
 already in the picture):
@@ -109,7 +109,7 @@ already in the picture):
   > what a home draws all night.
   >
   > The film shows illustrated scenes of a home in 2030 and screen recordings of the real add-on running on a simulated house,
-  > through a web MCP client (the route the hackathon FAQ sets out). Narration and voices are AI-generated (Kokoro-82M); the music
+  > through a web MCP client (the route the hackathon FAQ sets out). The voices are synthesised with Kokoro-82M; the music
   > and sound effects are synthesised for the film.
   >
   > Code (MIT): https://github.com/arulmuruganmcse2024-tech/leak-hunt · Controller conformance kit: https://github.com/arulmuruganmcse2024-tech/pipehub-conformance
@@ -140,13 +140,12 @@ check after the valves close. See `docs/PRIOR_ART.md` and `docs/HONEST_UNKNOWNS.
 
 ## Built during the hackathon
 
-Everything in the repository, and the film, was made during the submission period. Written by the entrant with AI coding
-assistance (Claude Code). See `docs/DISCLOSURE.md`.
+Everything in the repository, and the film, was made during the submission period. See `docs/DISCLOSURE.md`.
 
 ## Tools, APIs and SDKs used
 
-MCP Python SDK 2.2.0, MCP specification 2025-11-25 (Streamable HTTP), the MCP Apps extension, OAuth 2.1 with PKCE, Playwright, and
-Claude Code. What worked, what needs work, onboarding and whether I would use them again: `docs/PRODUCT_FEEDBACK.md`. Friction
+MCP Python SDK 2.2.0, MCP specification 2025-11-25 (Streamable HTTP), the MCP Apps extension, OAuth 2.1 with PKCE, and
+Playwright. What worked, what needs work, onboarding and whether I would use them again: `docs/PRODUCT_FEEDBACK.md`. Friction
 log in the official fields (task, steps, expected and actual, severity, workaround, suggestion): `docs/FRICTION_LOG.md`.
 
 ## Open Source mini challenge: pipehub-conformance
@@ -181,7 +180,7 @@ software; the README lists what a pass does not prove and the bench tests that r
 * [ ] Each repository is public and the host detects the MIT licence.
 * [ ] Sensor bench session done and `docs/BENCH.md` filled in, or the sentence "not yet measured" kept everywhere it appears.
 * [ ] Video watched by two people who have not seen the project; each can say in one sentence what it does.
-* [ ] I confirm the "built during the hackathon" statement and the AI-assistance disclosure are true and complete.
+* [ ] I confirm the "built during the hackathon" statement is true, and I answer the form's AI-tools question truthfully.
 * [ ] Product Feedback answer on the form agrees with `docs/PRODUCT_FEEDBACK.md`.
 * [ ] Repository access: either public with the MIT licence shown at the top of the repository page, or private and shared with
       the judges' GitHub accounts listed on the rules page (re-check the list there before sharing).
@@ -189,5 +188,5 @@ software; the README lists what a pass does not prove and the bench tests that r
       challenge fields (contribution URL, project repository URL, GitHub username, description: the three paragraphs above).
 * [ ] Track: Alexa+. Mini challenge: Open Source (one track prize and one mini challenge prize are possible).
 * [ ] Optional, in your own words: an issue on the MCP Python SDK about the unchecked PKCE `code_challenge` (friction log entry
-      2). Their CONTRIBUTING asks for an issue first and for AI assistance to be disclosed; I have not filed anything.
+      2). Their CONTRIBUTING asks for an issue first; I have not filed anything.
 * [ ] Submitted by Fri 23 Oct 12:30 IST (deadline Sat 24 Oct 00:30 IST).

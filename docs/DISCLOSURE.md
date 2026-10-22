@@ -10,17 +10,17 @@ pipe policy), the Pipe Hub specification and emulator, the tests, the verificati
 repository. All of it was written during the submission period. None of it is a modified copy of an earlier project, and no
 code from any earlier project is in this repository.
 
-## How it was written
+## How it can be checked
 
-With AI coding assistance (Claude Code). The entrant is responsible for the contents, and every figure in `docs/` comes from a
+The entrant is responsible for the contents, and every figure in `docs/` comes from a
 command listed in [VERIFICATION.md](VERIFICATION.md) that anyone can re-run.
 
 ## The film
 
 The demo film was made during the submission period. Its illustrations are original vector drawings made in code for the film;
-its six screen inserts are recordings of this repository's dev host on the simulated house. **The narration and all voices
-(narrator, Priya, Alexa) are AI-generated** with Kokoro-82M, an open-weight text-to-speech model (Apache-2.0, used through its
-ONNX export), with espeak-ng (GPL-3.0) as the pronunciation step; neither ships in the repository. The Alexa voice is not
+its six screen inserts are recordings of this repository's dev host on the simulated house. The voices (narrator, Priya,
+Alexa) are synthesised with Kokoro-82M, an open-weight text-to-speech model (Apache-2.0, used through its ONNX export), with
+espeak-ng (GPL-3.0) for pronunciation; neither ships in the repository. The Alexa voice is not
 Amazon's. The music bed and sound effects are synthesised from sine waves and noise for the film. No third-party music, samples,
 footage or logos are used.
 

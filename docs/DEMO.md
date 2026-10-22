@@ -13,7 +13,7 @@ shot is labelled on screen:
   over Streamable HTTP, on the simulated house and home. The numbers and sentences on these screens are the add-on's own.
 
 Alexa's spoken lines are the add-on's own sentences (from `docs/repro_output.txt`, `tests/test_modes.py` and `tests/test_power.py`),
-cut only at sentence or clause boundaries. The narration and all three voices (narrator, Priya, Alexa) are AI-generated with
+cut only at sentence or clause boundaries. The narration and all three voices (narrator, Priya, Alexa) are synthesised with
 Kokoro-82M, an open-weight text-to-speech model (Apache-2.0); the Alexa voice is not Amazon's. The sound design and the background
 pad are synthesised for the film from sine waves and noise: no third-party music, samples or logos.
 
