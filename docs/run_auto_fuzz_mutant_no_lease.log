@@ -1,0 +1,156 @@
+25/100 scenarios, violations so far: 5446, 28s
+50/100 scenarios, violations so far: 9131, 43s
+75/100 scenarios, violations so far: 14491, 55s
+100/100 scenarios, violations so far: 17881, 69s
+{
+ "scenarios": 100,
+ "probes": 5,
+ "seed0": 0,
+ "seconds": 71,
+ "violations": 18783,
+ "by_check": {
+  "A2": 18760,
+  "A1": 12,
+  "A12": 11
+ },
+ "outcomes": {
+  "aborted:hub_unreachable": 1,
+  "no_flow_above_limit": 21,
+  "aborted:telemetry_stale": 1,
+  "abandoned": 6,
+  "below_sensor_floor": 6,
+  "only_sources": 42,
+  "partial": 8,
+  "stopped": 9,
+  "aborted:pipe_moved": 3,
+  "upstream_remainder": 1,
+  "aborted:pipe_fault": 2
+ },
+ "refusals": {},
+ "asked_which_pipe_then_answered": 26,
+ "mutant": "no_lease",
+ "in_bound_scenarios": 47,
+ "in_bound_with_a_finding": 29,
+ "out_of_bound_false_accusations": 0,
+ "first_failures": [
+  {
+   "seed": 0,
+   "violations": [
+    "A2 toilet closed with no live lease at t=35",
+    "A2 toilet closed with no live lease at t=36",
+    "A2 toilet closed with no live lease at t=37",
+    "A2 toilet closed with no live lease at t=38"
+   ],
+   "scenario": {
+    "seed": 0,
+    "leaks": {
+     "kitchen2": 2.07,
+     "toilet": 2.73
+    },
+    "manual": [],
+    "ambient": [
+     [
+      134.27052715117878,
+      0.0
+     ],
+     [
+      181.73678739629602,
+      2.8
+     ]
+    ],
+    "faults": [
+     {
+      "kind": "offline",
+      "t": 234.06713512245045,
+      "dur": 400
+     }
+    ],
+    "human": "slow",
+    "voice": [],
+    "stop": null,
+    "suspect": null,
+    "isolation": "no",
+    "iso_delay": 13.5
+   }
+  },
+  {
+   "seed": 8,
+   "violations": [
+    "A2 bath closed with no live lease at t=25",
+    "A2 bath closed with no live lease at t=26",
+    "A2 bath closed with no live lease at t=27",
+    "A2 bath closed with no live lease at t=28"
+   ],
+   "scenario": {
+    "seed": 8,
+    "leaks": {
+     "kitchen2": 1.73
+    },
+    "manual": [],
+    "ambient": [],
+    "faults": [],
+    "human": "quick",
+    "voice": [],
+    "stop": 215.46474786942952,
+    "suspect": [
+     "kitchen"
+    ],
+    "isolation": "silent",
+    "iso_delay": 59.0
+   }
+  },
+  {
+   "seed": 9,
+   "violations": [
+    "A2 toilet closed with no live lease at t=25",
+    "A2 toilet closed with no live lease at t=26",
+    "A2 toilet closed with no live lease at t=27",
+    "A2 toilet closed with no live lease at t=28"
+   ],
+   "scenario": {
+    "seed": 9,
+    "leaks": {
+     "kitchen1": 2.09
+    },
+    "manual": [
+     "bath",
+     "shower"
+    ],
+    "ambient": [],
+    "faults": [],
+    "human": "quick",
+    "voice": [],
+    "stop": null,
+    "suspect": null,
+    "isolation": "silent",
+    "iso_delay": 20.3
+   }
+  },
+  {
+   "seed": 11,
+   "violations": [
+    "A2 toilet closed with no live lease at t=25",
+    "A2 toilet closed with no live lease at t=26",
+    "A2 toilet closed with no live lease at t=27",
+    "A2 toilet closed with no live lease at t=28"
+   ],
+   "scenario": {
+    "seed": 11,
+    "leaks": {
+     "garden": 3.63
+    },
+    "manual": [
+     "kitchen2"
+    ],
+    "ambient": [
+     [
+      124.56669064450645,
+      2.65
+     ]
+    ],
+    "faults": [],
+    "human": "quick",
+    "voice": [
+     {
+      "t": 161.6482881892496,
+      "pipe": "kitchen pipe 

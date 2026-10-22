@@ -1,0 +1,145 @@
+25/100 scenarios, violations so far: 34, 18s
+50/100 scenarios, violations so far: 68, 28s
+75/100 scenarios, violations so far: 104, 35s
+100/100 scenarios, violations so far: 132, 43s
+{
+ "scenarios": 100,
+ "probes": 5,
+ "seed0": 0,
+ "seconds": 44,
+ "violations": 132,
+ "by_check": {
+  "A4": 132
+ },
+ "outcomes": {
+  "aborted:hub_unreachable": 1,
+  "no_flow_above_limit": 13,
+  "aborted:pipe_missing": 45,
+  "abandoned": 3,
+  "below_sensor_floor": 4,
+  "only_sources": 18,
+  "partial": 5,
+  "stopped": 7,
+  "aborted:pipe_moved": 2,
+  "upstream_remainder": 1,
+  "aborted:pipe_fault": 1
+ },
+ "refusals": {},
+ "asked_which_pipe_then_answered": 26,
+ "mutant": "hand_valves",
+ "in_bound_scenarios": 47,
+ "in_bound_with_a_finding": 11,
+ "out_of_bound_false_accusations": 0,
+ "first_failures": [
+  {
+   "seed": 2,
+   "violations": [
+    "A4 shower was commanded but the hub cannot move it (hunt-end)",
+    "A4 garden was commanded but the hub cannot move it (hunt-end)",
+    "A4 garden was commanded but the hub cannot move it (hunt-start)",
+    "A4 shower was commanded but the hub cannot move it (hunt-start)"
+   ],
+   "scenario": {
+    "seed": 2,
+    "leaks": {
+     "toilet": 1.62,
+     "garden": 3.57
+    },
+    "manual": [
+     "shower",
+     "garden"
+    ],
+    "ambient": [
+     [
+      266.31258943788487,
+      2.25
+     ]
+    ],
+    "faults": [
+     {
+      "kind": "telemetry_gap",
+      "t": 106.61656057256324,
+      "dur": 200
+     }
+    ],
+    "human": "absent",
+    "voice": [],
+    "stop": null,
+    "suspect": [
+     "toilet"
+    ],
+    "isolation": "yes",
+    "iso_delay": 87.6
+   }
+  },
+  {
+   "seed": 3,
+   "violations": [
+    "A4 garden was commanded but the hub cannot move it (hunt-end)",
+    "A4 garden was commanded but the hub cannot move it (hunt-start)"
+   ],
+   "scenario": {
+    "seed": 3,
+    "leaks": {
+     "garden": 1.74
+    },
+    "manual": [
+     "garden"
+    ],
+    "ambient": [],
+    "faults": [],
+    "human": "absent",
+    "voice": [],
+    "stop": null,
+    "suspect": null,
+    "isolation": "silent",
+    "iso_delay": 55.9
+   }
+  },
+  {
+   "seed": 5,
+   "violations": [
+    "A4 kitchen2 was commanded but the hub cannot move it (hunt-end)",
+    "A4 garden was commanded but the hub cannot move it (hunt-end)",
+    "A4 garden was commanded but the hub cannot move it (hunt-start)",
+    "A4 kitchen2 was commanded but the hub cannot move it (hunt-start)"
+   ],
+   "scenario": {
+    "seed": 5,
+    "leaks": {
+     "kitchen1": 3.47
+    },
+    "manual": [
+     "garden",
+     "kitchen2"
+    ],
+    "ambient": [],
+    "faults": [],
+    "human": "absent",
+    "voice": [],
+    "stop": null,
+    "suspect": null,
+    "isolation": "no",
+    "iso_delay": 49.0
+   }
+  },
+  {
+   "seed": 9,
+   "violations": [
+    "A4 bath was commanded but the hub cannot move it (hunt-end)",
+    "A4 shower was commanded but the hub cannot move it (hunt-end)",
+    "A4 shower was commanded but the hub cannot move it (hunt-start)",
+    "A4 bath was commanded but the hub cannot move it (hunt-start)"
+   ],
+   "scenario": {
+    "seed": 9,
+    "leaks": {
+     "kitchen1": 2.09
+    },
+    "manual": [
+     "bath",
+     "shower"
+    ],
+    "ambient": [],
+    "faults": [],
+    "hum

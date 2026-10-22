@@ -1,0 +1,75 @@
+...........................................................StreamableHTTP session manager started
+StreamableHTTP session manager started
+...StreamableHTTP session manager shutting down
+StreamableHTTP session manager shutting down
+.............................................................................................StreamableHTTP session manager started
+..Created new transport with session ID: d4592c19b9fc49fd9c4f3e8577527d5b
+.Created new transport with session ID: c9e3f5a001c44faeb71150071f55de9c
+.Created new transport with session ID: cecd9ac7ee1841e4b26355846bc75c99
+Created new transport with session ID: 79667e38ccaf4035b2ac80edb81b755c
+Created new transport with session ID: ae5bd12fcaa0475d8ceef3210c57136b
+Created new transport with session ID: 0b4e5aa491664e96b5ef5b73b37abe96
+...........StreamableHTTP session manager shutting down
+Terminating session: cecd9ac7ee1841e4b26355846bc75c99
+Terminating session: d4592c19b9fc49fd9c4f3e8577527d5b
+Terminating session: 0b4e5aa491664e96b5ef5b73b37abe96
+Terminating session: 79667e38ccaf4035b2ac80edb81b755c
+Terminating session: ae5bd12fcaa0475d8ceef3210c57136b
+Terminating session: c9e3f5a001c44faeb71150071f55de9c
+.............................................................................StreamableHTTP session manager started
+StreamableHTTP session manager started
+...StreamableHTTP session manager shutting down
+StreamableHTTP session manager shutting down
+.........StreamableHTTP session manager started
+Created new transport with session ID: 2be687723e674c9ebc2dbe1f928474be
+.Created new transport with session ID: eb940b761b0a4d199fe40a3d018e0054
+Tool 'does_not_exist' failed: 'Unknown tool: does_not_exist'
+Tool 'report_step' rejected arguments: ['kind']
+.Created new transport with session ID: cb119e8456db418da2ba6888290b3864
+..Created new transport with session ID: 506424b7d66e41828e3dd4c16ee6da22
+.Created new transport with session ID: 3996a7307930407aab11ad82dd0c8434
+.Created new transport with session ID: e1120a1551cb4fd59a3d5cc35a84b1cb
+.Created new transport with session ID: 4c231ab2d0d6484c877d91386be717b4
+.Created new transport with session ID: 8cb1ce75e75844918f072cdbee696d1b
+.StreamableHTTP session manager shutting down
+Terminating session: eb940b761b0a4d199fe40a3d018e0054
+Terminating session: e1120a1551cb4fd59a3d5cc35a84b1cb
+Terminating session: 4c231ab2d0d6484c877d91386be717b4
+Terminating session: 8cb1ce75e75844918f072cdbee696d1b
+Terminating session: cb119e8456db418da2ba6888290b3864
+Terminating session: 2be687723e674c9ebc2dbe1f928474be
+Terminating session: 3996a7307930407aab11ad82dd0c8434
+Terminating session: 506424b7d66e41828e3dd4c16ee6da22
+StreamableHTTP session manager started
+Created new transport with session ID: ed553d963cf64da695c490c07f72b28f
+.Created new transport with session ID: 1d1f598681ee4a90bf8c7f831b450566
+.Created new transport with session ID: eaa929fd8217489b9a6103ad5b0f5f4b
+.StreamableHTTP session manager shutting down
+Terminating session: ed553d963cf64da695c490c07f72b28f
+Terminating session: 1d1f598681ee4a90bf8c7f831b450566
+Terminating session: eaa929fd8217489b9a6103ad5b0f5f4b
+StreamableHTTP session manager started
+.Created new transport with session ID: 875966f3e3564ffdaaa2ee26fdb16279
+.Created new transport with session ID: 60d88bf17eaf47f79ee4eaad2806100f
+Tool 'does_not_exist' failed: 'Unknown tool: does_not_exist'
+Tool 'report_step' rejected arguments: ['kind']
+...Created new transport with session ID: a4444f8f44af4104899c118182799ddd
+.Created new transport with session ID: cf9979cface442e49d7e53a5b8933073
+..Created new transport with session ID: 3a2239cbff824345ad433bd618a8ebb9
+.Created new transport with session ID: 36c62f2d92a74e17802ccba06babc619
+.Created new transport with session ID: 53d96e7754334ce6a2b7da740d5a9bbb
+.Created new transport with session ID: 69138c8bf99543f18ba045b3fad1b2db
+.StreamableHTTP session manager shutting down
+Terminating session: 36c62f2d92a74e17802ccba06babc619
+Terminating session: 69138c8bf99543f18ba045b3fad1b2db
+Terminating session: 53d96e7754334ce6a2b7da740d5a9bbb
+Terminating session: a4444f8f44af4104899c118182799ddd
+Terminating session: 875966f3e3564ffdaaa2ee26fdb16279
+Terminating session: cf9979cface442e49d7e53a5b8933073
+Terminating session: 3a2239cbff824345ad433bd618a8ebb9
+Terminating session: 60d88bf17eaf47f79ee4eaad2806100f
+.....................
+----------------------------------------------------------------------
+Ran 304 tests in 131.546s
+
+OK

@@ -1,0 +1,173 @@
+{
+ "scenarios": 100,
+ "probes": 5,
+ "seed0": 0,
+ "seconds": 71,
+ "violations": 6,
+ "by_check": {
+  "A10": 6
+ },
+ "outcomes": {
+  "aborted:hub_unreachable": 1,
+  "no_flow_above_limit": 21,
+  "aborted:telemetry_stale": 1,
+  "abandoned": 6,
+  "below_sensor_floor": 6,
+  "only_sources": 42,
+  "partial": 8,
+  "stopped": 9,
+  "aborted:pipe_moved": 3,
+  "upstream_remainder": 1,
+  "aborted:pipe_fault": 2
+ },
+ "refusals": {},
+ "asked_which_pipe_then_answered": 26,
+ "mutant": "stale_acts",
+ "in_bound_scenarios": 47,
+ "in_bound_with_a_finding": 29,
+ "out_of_bound_false_accusations": 0,
+ "first_failures": [
+  {
+   "seed": 36,
+   "violations": [
+    "A10 1 valve command(s) reached the hub while the data was stale at t=126: [(1800082926.0, 'toilet', 'closed')]"
+   ],
+   "scenario": {
+    "seed": 36,
+    "leaks": {
+     "toilet": 3.89
+    },
+    "manual": [],
+    "ambient": [
+     [
+      60.136943391384904,
+      2.33
+     ]
+    ],
+    "faults": [
+     {
+      "kind": "telemetry_gap",
+      "t": 73.74165018804803,
+      "dur": 55
+     }
+    ],
+    "human": "quick",
+    "voice": [],
+    "stop": null,
+    "suspect": [
+     "kitchen"
+    ],
+    "isolation": "no",
+    "iso_delay": 76.6
+   }
+  },
+  {
+   "seed": 900000,
+   "violations": [
+    "A10 1 valve command(s) reached the hub while the data was stale at t=86: [(1800082886.0, 'toilet', 'closed')]"
+   ],
+   "scenario": {
+    "seed": 900000,
+    "leaks": {
+     "garden": 2.5
+    },
+    "manual": [],
+    "ambient": [],
+    "faults": [
+     {
+      "kind": "telemetry_gap",
+      "t": 50.0,
+      "dur": 55
+     }
+    ],
+    "human": "quick",
+    "voice": [],
+    "stop": null,
+    "suspect": null,
+    "isolation": "no",
+    "iso_delay": 48.8
+   }
+  },
+  {
+   "seed": 900001,
+   "violations": [
+    "A10 1 valve command(s) reached the hub while the data was stale at t=106: [(1800082906.0, 'shower', 'closed')]"
+   ],
+   "scenario": {
+    "seed": 900001,
+    "leaks": {
+     "garden": 2.5
+    },
+    "manual": [],
+    "ambient": [],
+    "faults": [
+     {
+      "kind": "telemetry_gap",
+      "t": 60.0,
+      "dur": 55
+     }
+    ],
+    "human": "quick",
+    "voice": [],
+    "stop": null,
+    "suspect": null,
+    "isolation": "no",
+    "iso_delay": 27.9
+   }
+  },
+  {
+   "seed": 900002,
+   "violations": [
+    "A10 1 valve command(s) reached the hub while the data was stale at t=106: [(1800082906.0, 'shower', 'closed')]"
+   ],
+   "scenario": {
+    "seed": 900002,
+    "leaks": {
+     "garden": 2.5
+    },
+    "manual": [],
+    "ambient": [],
+    "faults": [
+     {
+      "kind": "telemetry_gap",
+      "t": 70.0,
+      "dur": 55
+     }
+    ],
+    "human": "quick",
+    "voice": [],
+    "stop": null,
+    "suspect": null,
+    "isolation": "yes",
+    "iso_delay": 68.6
+   }
+  },
+  {
+   "seed": 900003,
+   "violations": [
+    "A10 1 valve command(s) reached the hub while the data was stale at t=86: [(1800082886.0, 'toilet', 'closed')]"
+   ],
+   "scenario": {
+    "seed": 900003,
+    "leaks": {
+     "garden": 2.5
+    },
+    "manual": [],
+    "ambient": [],
+    "faults": [
+     {
+      "kind": "telemetry_gap",
+      "t": 50.0,
+      "dur": 200
+     }
+    ],
+    "human": "quick",
+    "voice": [],
+    "stop": null,
+    "suspect": null,
+    "isolation": "late_yes",
+    "iso_delay": 92.3
+   }
+  }
+ ]
+}

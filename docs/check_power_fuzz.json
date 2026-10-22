@@ -1,0 +1,87 @@
+{
+ "runs": 500,
+ "failures": 0,
+ "cases": {
+  "customer says stop": 94,
+  "guided": 163,
+  "add-on dies": 43,
+  "auto": 337
+ },
+ "outcomes": {
+  "stopped": 92,
+  "active": 42,
+  "partial": 272,
+  "upstream_remainder": 94
+ },
+ "finished_with_plug": {
+  "named it": 272,
+  "named nothing": 16
+ },
+ "missed": [
+  {
+   "base_w": 121.2,
+   "plug_w": 17.8
+  },
+  {
+   "base_w": 80.8,
+   "plug_w": 6.2
+  },
+  {
+   "base_w": 162.5,
+   "plug_w": 14.1
+  },
+  {
+   "base_w": 203.3,
+   "plug_w": 9.9
+  },
+  {
+   "base_w": 221.8,
+   "plug_w": 21.7
+  },
+  {
+   "base_w": 247.0,
+   "plug_w": 22.3
+  },
+  {
+   "base_w": 244.0,
+   "plug_w": 16.4
+  },
+  {
+   "base_w": 128.6,
+   "plug_w": 13.9
+  },
+  {
+   "base_w": 103.5,
+   "plug_w": 8.2
+  },
+  {
+   "base_w": 160.5,
+   "plug_w": 13.8
+  },
+  {
+   "base_w": 102.6,
+   "plug_w": 15.0
+  },
+  {
+   "base_w": 241.0,
+   "plug_w": 13.3
+  },
+  {
+   "base_w": 150.9,
+   "plug_w": 7.3
+  },
+  {
+   "base_w": 202.6,
+   "plug_w": 8.4
+  },
+  {
+   "base_w": 115.2,
+   "plug_w": 16.6
+  },
+  {
+   "base_w": 124.4,
+   "plug_w": 12.1
+  }
+ ],
+ "fails": []
+}

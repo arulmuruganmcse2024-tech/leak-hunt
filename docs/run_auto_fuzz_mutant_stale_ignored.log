@@ -1,0 +1,135 @@
+25/100 scenarios, violations so far: 141, 32s
+50/100 scenarios, violations so far: 141, 46s
+75/100 scenarios, violations so far: 141, 58s
+100/100 scenarios, violations so far: 141, 72s
+{
+ "scenarios": 100,
+ "probes": 5,
+ "seed0": 0,
+ "seconds": 75,
+ "violations": 209,
+ "by_check": {
+  "A9": 209
+ },
+ "outcomes": {
+  "aborted:hub_unreachable": 1,
+  "no_flow_above_limit": 21,
+  "abandoned": 7,
+  "below_sensor_floor": 6,
+  "only_sources": 42,
+  "partial": 8,
+  "stopped": 9,
+  "aborted:pipe_moved": 3,
+  "upstream_remainder": 1,
+  "aborted:pipe_fault": 2
+ },
+ "refusals": {},
+ "asked_which_pipe_then_answered": 26,
+ "mutant": "stale_ignored",
+ "in_bound_scenarios": 47,
+ "in_bound_with_a_finding": 29,
+ "out_of_bound_false_accusations": 0,
+ "first_failures": [
+  {
+   "seed": 2,
+   "violations": [
+    "A9 hunt still active on 66 s old telemetry at t=166",
+    "A9 hunt still active on 67 s old telemetry at t=167",
+    "A9 hunt still active on 68 s old telemetry at t=168",
+    "A9 hunt still active on 69 s old telemetry at t=169"
+   ],
+   "scenario": {
+    "seed": 2,
+    "leaks": {
+     "toilet": 1.62,
+     "garden": 3.57
+    },
+    "manual": [
+     "shower",
+     "garden"
+    ],
+    "ambient": [
+     [
+      266.31258943788487,
+      2.25
+     ]
+    ],
+    "faults": [
+     {
+      "kind": "telemetry_gap",
+      "t": 106.61656057256324,
+      "dur": 200
+     }
+    ],
+    "human": "absent",
+    "voice": [],
+    "stop": null,
+    "suspect": [
+     "toilet"
+    ],
+    "isolation": "yes",
+    "iso_delay": 87.6
+   }
+  },
+  {
+   "seed": 900003,
+   "violations": [
+    "A9 hunt still active on 66 s old telemetry at t=106",
+    "A9 hunt still active on 67 s old telemetry at t=107",
+    "A9 hunt still active on 68 s old telemetry at t=108",
+    "A9 hunt still active on 69 s old telemetry at t=109"
+   ],
+   "scenario": {
+    "seed": 900003,
+    "leaks": {
+     "garden": 2.5
+    },
+    "manual": [],
+    "ambient": [],
+    "faults": [
+     {
+      "kind": "telemetry_gap",
+      "t": 50.0,
+      "dur": 200
+     }
+    ],
+    "human": "quick",
+    "voice": [],
+    "stop": null,
+    "suspect": null,
+    "isolation": "late_yes",
+    "iso_delay": 92.3
+   }
+  },
+  {
+   "seed": 900004,
+   "violations": [
+    "A9 hunt still active on 66 s old telemetry at t=136",
+    "A9 hunt still active on 67 s old telemetry at t=137",
+    "A9 hunt still active on 68 s old telemetry at t=138",
+    "A9 hunt still active on 69 s old telemetry at t=139"
+   ],
+   "scenario": {
+    "seed": 900004,
+    "leaks": {
+     "garden": 2.5
+    },
+    "manual": [],
+    "ambient": [],
+    "faults": [
+     {
+      "kind": "telemetry_gap",
+      "t": 80.0,
+      "dur": 90
+     }
+    ],
+    "human": "quick",
+    "voice": [],
+    "stop": null,
+    "suspect": null,
+    "isolation": "no",
+    "iso_delay": 50.5
+   }
+  }
+ ]
+}

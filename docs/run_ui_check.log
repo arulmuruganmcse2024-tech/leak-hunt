@@ -1,0 +1,18 @@
+light_768x480            steps=4 taps=7 polls=12 parity_ok=38 t=21.5s fails=0
+dark_768x480             steps=4 taps=5 polls=13 parity_ok=41 t=21.4s fails=0
+light_1280x800           steps=4 taps=5 polls=13 parity_ok=41 t=21.2s fails=0
+dark_1280x800            steps=4 taps=5 polls=13 parity_ok=41 t=21.1s fails=0
+inline_light_600x260     steps=4 taps=5 polls=13 parity_ok=41 t=21.1s fails=0
+phone_dark_360x640       steps=4 taps=5 polls=13 parity_ok=41 t=21.1s fails=0
+auto_light_768x480       steps=1 taps=6 polls=10 parity_ok=33 t=21.7s fails=0
+auto_dark_1280x800       steps=1 taps=4 polls=10 parity_ok=33 t=19.5s fails=0
+auto_phone_light_360x640 steps=1 taps=6 polls=10 parity_ok=33 t=21.7s fails=0
+fill_kitchen_phone_light_360x640 steps=0 taps=0 polls=0 parity_ok=12 t=7.7s fails=0
+pipes_light_768x480      steps=0 taps=0 polls=0 parity_ok=1 t=0s fails=0
+fill_dark_1280x800       steps=0 taps=0 polls=0 parity_ok=75 t=39.5s fails=0
+modes_light_768x480      steps=0 taps=2 polls=0 parity_ok=3 t=6.6s fails=0
+power_light_768x480      steps=6 taps=5 polls=50 parity_ok=6 t=32.0s fails=0
+power_phone_dark_360x640 steps=6 taps=5 polls=50 parity_ok=6 t=31.9s fails=0
+plug_dark_1280x800       steps=0 taps=0 polls=0 parity_ok=0 t=34.0s fails=0
+challenge_dark_1280x800  steps=1 taps=4 polls=22 parity_ok=69 t=38.0s fails=0
+TOTAL FAILURES 0

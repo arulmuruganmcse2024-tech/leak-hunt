@@ -1,0 +1,141 @@
+{
+ "scenarios": 150,
+ "seed0": 0,
+ "mutant": "no_recheck",
+ "seconds": 33,
+ "violations": 7,
+ "by_check": {
+  "F2": 3,
+  "F3": 4
+ },
+ "outcomes": {
+  "done": 78,
+  "hub_unreachable": 18,
+  "meter_lost": 6,
+  "outlet_stuck": 10,
+  "branch_closed": 6,
+  "stopped": 9,
+  "flow_changed": 9,
+  "open_dead": 14
+ },
+ "taps": {
+  "hose": 28,
+  "tub": 81,
+  "ktap": 41
+ },
+ "outcomes_by_tap": {
+  "tub": {
+   "hub_unreachable": 11,
+   "outlet_stuck": 6,
+   "done": 39,
+   "meter_lost": 3,
+   "stopped": 6,
+   "flow_changed": 5,
+   "open_dead": 8,
+   "branch_closed": 3
+  },
+  "ktap": {
+   "done": 24,
+   "branch_closed": 2,
+   "stopped": 3,
+   "flow_changed": 2,
+   "hub_unreachable": 5,
+   "open_dead": 2,
+   "meter_lost": 1,
+   "outlet_stuck": 2
+  },
+  "hose": {
+   "done": 15,
+   "meter_lost": 2,
+   "hub_unreachable": 2,
+   "flow_changed": 2,
+   "open_dead": 4,
+   "outlet_stuck": 2,
+   "branch_closed": 1
+  }
+ },
+ "max_overfill_l_by_tap": {
+  "tub": 18.61,
+  "ktap": -0.1,
+  "hose": 1.55
+ },
+ "max_overfill_l": 18.61,
+ "max_overfill_l_clean": -0.32,
+ "max_overfill_l_no_outside_change": -0.1,
+ "max_overfill_l_with_outside_change": 18.61,
+ "max_said_vs_truth_l_when_done": 19.28,
+ "max_said_vs_truth_l_when_done_clean": 0.10999999999999943,
+ "scenarios_with_an_outside_change": 37,
+ "scenarios_with_a_change_before_the_request": 25,
+ "max_overfill_l_change_before_request_rechecked": 0,
+ "max_overfill_l_change_before_request_not_rechecked": 18.61,
+ "fills_that_rechecked": 0,
+ "first_failures": [
+  {
+   "seed": 11,
+   "tap": "tub",
+   "outcome": "done",
+   "truth": 121.6,
+   "said": 117.42,
+   "target": 117.9,
+   "overfill": 3.7,
+   "changed": false,
+   "pre_changed": true,
+   "rechecked": false,
+   "allowance_l": 0.52,
+   "fault": null,
+   "violations": [
+    "F2 over-filled with an outside change: 121.6 litres for 118 (allowed 2.0 over)",
+    "F3 said 117.4 litres, really 121.6 (allowed 2.0)"
+   ]
+  },
+  {
+   "seed": 50,
+   "tap": "tub",
+   "outcome": "done",
+   "truth": 79.8,
+   "said": 99.08,
+   "target": 99.2,
+   "overfill": -19.4,
+   "changed": false,
+   "pre_changed": true,
+   "rechecked": false,
+   "allowance_l": 0.29,
+   "fault": null,
+   "violations": [
+    "F3 said 99.1 litres, really 79.8 (allowed 1.8)"
+   ]
+  },
+  {
+   "seed": 88,
+   "tap": "tub",
+   "outcome": "done",
+   "truth": 146.11,
+   "said": 127.03,
+   "target": 127.5,
+   "overfill": 18.61,
+   "changed": false,
+   "pre_changed": true,
+   "rechecked": false,
+   "allowance_l": 0.16,
+   "fault": null,
+   "violations": [
+    "F2 over-filled with an outside change: 146.1 litres for 128 (allowed 1.7 over)",
+    "F3 said 127.0 litres, really 146.1 (allowed 1.7)"
+   ]
+  },
+  {
+   "seed": 112,
+   "tap": "tub",
+   "outcome": "open_dead",
+   "truth": 105.07,
+   "said": 89.9,
+   "target": 96.8,
+   "overfill": 8.27,
+   "changed": false,
+   "pre_changed": true,
+   "rechecked": false,
+   "allowance_l": 0.51,
+   "fault": "dead",
+   "violations": [
+    "F2 over-filled with an outside change: 105.1 litres for 97 (allowed

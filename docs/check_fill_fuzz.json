@@ -1,0 +1,77 @@
+{
+ "scenarios": 300,
+ "seed0": 0,
+ "mutant": "",
+ "seconds": 62,
+ "violations": 0,
+ "by_check": {},
+ "outcomes": {
+  "done": 144,
+  "hub_unreachable": 22,
+  "meter_lost": 11,
+  "outlet_stuck": 17,
+  "branch_closed": 16,
+  "stopped": 30,
+  "flow_changed": 22,
+  "open_dead": 33,
+  "hub_unreachable_paused": 3,
+  "meter_lost_paused": 2
+ },
+ "taps": {
+  "hose": 55,
+  "tub": 157,
+  "ktap": 88
+ },
+ "outcomes_by_tap": {
+  "tub": {
+   "hub_unreachable": 15,
+   "outlet_stuck": 10,
+   "done": 79,
+   "meter_lost": 6,
+   "stopped": 13,
+   "flow_changed": 10,
+   "open_dead": 13,
+   "branch_closed": 10,
+   "hub_unreachable_paused": 1
+  },
+  "ktap": {
+   "done": 42,
+   "branch_closed": 3,
+   "flow_changed": 8,
+   "stopped": 7,
+   "hub_unreachable_paused": 2,
+   "open_dead": 12,
+   "hub_unreachable": 5,
+   "meter_lost": 2,
+   "outlet_stuck": 5,
+   "meter_lost_paused": 2
+  },
+  "hose": {
+   "done": 23,
+   "meter_lost": 3,
+   "hub_unreachable": 2,
+   "flow_changed": 4,
+   "open_dead": 8,
+   "outlet_stuck": 2,
+   "branch_closed": 3,
+   "stopped": 10
+  }
+ },
+ "max_overfill_l_by_tap": {
+  "tub": 2.81,
+  "ktap": 0.21,
+  "hose": 0.01
+ },
+ "max_overfill_l": 2.81,
+ "max_overfill_l_clean": -0.28,
+ "max_overfill_l_no_outside_change": -0.0,
+ "max_overfill_l_with_outside_change": 2.81,
+ "max_said_vs_truth_l_when_done": 3.3800000000000026,
+ "max_said_vs_truth_l_when_done_clean": 0.09999999999999432,
+ "scenarios_with_an_outside_change": 69,
+ "scenarios_with_a_change_before_the_request": 47,
+ "max_overfill_l_change_before_request_rechecked": 0.03,
+ "max_overfill_l_change_before_request_not_rechecked": -0.34,
+ "fills_that_rechecked": 184,
+ "first_failures": []
+}

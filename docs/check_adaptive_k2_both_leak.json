@@ -1,0 +1,22 @@
+{
+ "both_leak": {
+  "max_faults": 2,
+  "nodes": 201870,
+  "violations": 0,
+  "first": [],
+  "confirmed_reached": 152071,
+  "only_sources_reached": 6946,
+  "aborted_reached": 2870,
+  "seconds": 92.9
+ },
+ "ambient_tap_then_stops": {
+  "max_faults": 2,
+  "nodes": 56537,
+  "violations": 0,
+  "first": [],
+  "confirmed_reached": 416,
+  "only_sources_reached": 0,
+  "aborted_reached": 617,
+  "seconds": 21.3
+ }
+}

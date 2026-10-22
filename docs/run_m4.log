@@ -1,0 +1,151 @@
+{
+ "config": {
+  "clock_tol_s": 3.0,
+  "min_window_s": 9.0
+ },
+ "stats": {
+  "schedules": 4698756,
+  "M4 resolved a window that spans a reboot": 217381,
+  "  the real engine does not resolve yet (pending: reboot_truncated)": 6953,
+  "    ...of which with a flow change at the reboot": 8192,
+  "  the real engine does not resolve yet (pending: window_too_short)": 15606,
+  "  the real engine resolves the same rate": 129813,
+  "  the real engine resolves a different rate (flow changed at the reboot)": 65009
+ },
+ "max_age_of_boot1_at_window_start_s": 2.5,
+ "max_rate_error_const_flow_lpm": 4.440892098500626e-16,
+ "examples": [
+  {
+   "horizon_s": 19,
+   "A1": 1,
+   "off": 6,
+   "boot1": [
+    0.5,
+    null
+   ],
+   "boot2": [
+    10.0,
+    null
+   ],
+   "q": [
+    0,
+    0
+   ],
+   "jitter": -2.0,
+   "age_a_s": 0.5,
+   "lpm_m4": 0.0,
+   "T_m4": 9.5,
+   "real": "pending:reboot_truncated"
+  },
+  {
+   "horizon_s": 19,
+   "A1": 1,
+   "off": 6,
+   "boot1": [
+    0.5,
+    null
+   ],
+   "boot2": [
+    10.0,
+    null
+   ],
+   "q": [
+    2,
+    2
+   ],
+   "jitter": -2.0,
+   "age_a_s": 0.5,
+   "lpm_m4": 2.0,
+   "T_m4": 9.5,
+   "real": "pending:reboot_truncated"
+  },
+  {
+   "horizon_s": 19,
+   "A1": 1,
+   "off": 6,
+   "boot1": [
+    0.5,
+    null
+   ],
+   "boot2": [
+    10.0,
+    null
+   ],
+   "q": [
+    3,
+    3
+   ],
+   "jitter": -2.0,
+   "age_a_s": 0.5,
+   "lpm_m4": 3.0,
+   "T_m4": 9.5,
+   "real": "pending:reboot_truncated"
+  },
+  {
+   "horizon_s": 19,
+   "A1": 1,
+   "off": 6,
+   "boot1": [
+    0.5,
+    null
+   ],
+   "boot2": [
+    10.0,
+    null
+   ],
+   "q": [
+    0,
+    2
+   ],
+   "jitter": -2.0,
+   "age_a_s": 0.5,
+   "lpm_m4": 2.1053,
+   "T_m4": 9.5,
+   "real": "pending:reboot_truncated"
+  },
+  {
+   "horizon_s": 19,
+   "A1": 1,
+   "off": 6,
+   "boot1": [
+    0.5,
+    null
+   ],
+   "boot2": [
+    10.0,
+    null
+   ],
+   "q": [
+    3,
+    1
+   ],
+   "jitter": -2.0,
+   "age_a_s": 0.5,
+   "lpm_m4": 0.8947,
+   "T_m4": 9.5,
+   "real": "pending:reboot_truncated"
+  },
+  {
+   "horizon_s": 19,
+   "A1": 1,
+   "off": 6,
+   "boot1": [
+    0.5,
+    null
+   ],
+   "boot2": [
+    10.0,
+    0.5
+   ],
+   "q": [
+    0,
+    0
+   ],
+   "jitter": -2.0,
+   "age_a_s": 0.5,
+   "lpm_m4": 0.0,
+   "T_m4": 9.5,
+   "real": "pending:reboot_truncated"
+  }
+ ]
+}

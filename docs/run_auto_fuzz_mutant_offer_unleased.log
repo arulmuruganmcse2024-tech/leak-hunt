@@ -1,0 +1,155 @@
+25/100 scenarios, violations so far: 25, 28s
+50/100 scenarios, violations so far: 61, 41s
+75/100 scenarios, violations so far: 99, 53s
+100/100 scenarios, violations so far: 139, 68s
+{
+ "scenarios": 100,
+ "probes": 5,
+ "seed0": 0,
+ "seconds": 69,
+ "violations": 139,
+ "by_check": {
+  "A2": 49,
+  "A1": 90
+ },
+ "outcomes": {
+  "aborted:hub_unreachable": 1,
+  "no_flow_above_limit": 21,
+  "aborted:telemetry_stale": 1,
+  "abandoned": 6,
+  "below_sensor_floor": 6,
+  "only_sources": 42,
+  "partial": 8,
+  "stopped": 9,
+  "aborted:pipe_moved": 3,
+  "upstream_remainder": 1,
+  "aborted:pipe_fault": 2
+ },
+ "refusals": {},
+ "asked_which_pipe_then_answered": 26,
+ "mutant": "offer_unleased",
+ "in_bound_scenarios": 47,
+ "in_bound_with_a_finding": 29,
+ "out_of_bound_false_accusations": 0,
+ "first_failures": [
+  {
+   "seed": 8,
+   "violations": [
+    "A2 kitchen2 closed with no live lease at t=145",
+    "A1 pipes still closed at the moment the hunt ended: ['kitchen2']",
+    "A1 pipes left closed after the hunt ended: ['kitchen2']"
+   ],
+   "scenario": {
+    "seed": 8,
+    "leaks": {
+     "kitchen2": 1.73
+    },
+    "manual": [],
+    "ambient": [],
+    "faults": [],
+    "human": "quick",
+    "voice": [],
+    "stop": 215.46474786942952,
+    "suspect": [
+     "kitchen"
+    ],
+    "isolation": "silent",
+    "iso_delay": 59.0
+   }
+  },
+  {
+   "seed": 9,
+   "violations": [
+    "A2 kitchen1 closed with no live lease at t=235",
+    "A1 pipes still closed at the moment the hunt ended: ['kitchen1']",
+    "A1 pipes left closed after the hunt ended: ['kitchen1']"
+   ],
+   "scenario": {
+    "seed": 9,
+    "leaks": {
+     "kitchen1": 2.09
+    },
+    "manual": [
+     "bath",
+     "shower"
+    ],
+    "ambient": [],
+    "faults": [],
+    "human": "quick",
+    "voice": [],
+    "stop": null,
+    "suspect": null,
+    "isolation": "silent",
+    "iso_delay": 20.3
+   }
+  },
+  {
+   "seed": 11,
+   "violations": [
+    "A2 garden closed with no live lease at t=345",
+    "A1 pipes still closed at the moment the hunt ended: ['garden']",
+    "A1 pipes left closed after the hunt ended: ['garden']"
+   ],
+   "scenario": {
+    "seed": 11,
+    "leaks": {
+     "garden": 3.63
+    },
+    "manual": [
+     "kitchen2"
+    ],
+    "ambient": [
+     [
+      124.56669064450645,
+      2.65
+     ]
+    ],
+    "faults": [],
+    "human": "quick",
+    "voice": [
+     {
+      "t": 161.6482881892496,
+      "pipe": "kitchen pipe 2",
+      "state": "on",
+      "confirm": false
+     }
+    ],
+    "stop": null,
+    "suspect": null,
+    "isolation": "late_yes",
+    "iso_delay": 98.3
+   }
+  },
+  {
+   "seed": 12,
+   "violations": [
+    "A2 garden closed with no live lease at t=175",
+    "A1 pipes still closed at the moment the hunt ended: ['garden']",
+    "A1 pipes left closed after the hunt ended: ['garden']"
+   ],
+   "scenario": {
+    "seed": 12,
+    "leaks": {
+     "garden": 3.13
+    },
+    "manual": [],
+    "ambient": [
+     [
+      216.47421460450812,
+      0.0
+     ],
+     [
+      224.06319672745738,
+      2.36
+     ]
+    ],
+    "faults": [],
+    "human": "quick",
+    "voice": [
+     {
+      "t": 206.05822046343755,
+      "pipe": "garden tap",
+      "state": "off",
+      "confirm": true
+     }
+    

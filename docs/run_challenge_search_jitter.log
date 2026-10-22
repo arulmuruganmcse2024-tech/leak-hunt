@@ -1,0 +1,130 @@
+seed 3 done
+seed 5 done
+seed 7 done
+seed 8 done
+seed 9 done
+seed 10 done
+seed 11 done
+seed 12 done
+seed 13 done
+seed 14 done
+{
+ "seeds": [
+  3,
+  5,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14
+ ],
+ "timings_s": [
+  20,
+  197,
+  3
+ ],
+ "hunts": 600,
+ "outside_changes_per_hunt": [
+  1
+ ],
+ "leak_hunt_false_accusations": 0,
+ "naive_false_accusations": 6,
+ "naive_false_accusation_cases": [
+  {
+   "seed": 11,
+   "t_off": 143,
+   "hidden": [
+    "garden tap"
+   ],
+   "naive": [
+    "kitchen pipe 2",
+    "garden tap"
+   ],
+   "leak_hunt": [
+    "garden tap"
+   ]
+  },
+  {
+   "seed": 11,
+   "t_off": 146,
+   "hidden": [
+    "garden tap"
+   ],
+   "naive": [
+    "kitchen pipe 2",
+    "garden tap"
+   ],
+   "leak_hunt": [
+    "garden tap"
+   ]
+  },
+  {
+   "seed": 12,
+   "t_off": 143,
+   "hidden": [
+    "garden tap"
+   ],
+   "naive": [
+    "kitchen pipe 2",
+    "garden tap"
+   ],
+   "leak_hunt": [
+    "garden tap"
+   ]
+  },
+  {
+   "seed": 12,
+   "t_off": 146,
+   "hidden": [
+    "garden tap"
+   ],
+   "naive": [
+    "kitchen pipe 2",
+    "garden tap"
+   ],
+   "leak_hunt": [
+    "garden tap"
+   ]
+  },
+  {
+   "seed": 14,
+   "t_off": 143,
+   "hidden": [
+    "garden tap"
+   ],
+   "naive": [
+    "kitchen pipe 2",
+    "garden tap"
+   ],
+   "leak_hunt": [
+    "garden tap"
+   ]
+  },
+  {
+   "seed": 14,
+   "t_off": 146,
+   "hidden": [
+    "garden tap"
+   ],
+   "naive": [
+    "kitchen pipe 2",
+    "garden tap"
+   ],
+   "leak_hunt": [
+    "garden tap"
+   ]
+  }
+ ],
+ "leak_hunt_grades": {
+  "right": 600
+ },
+ "naive_grades": {
+  "right": 594,
+  "false_accusation": 6
+ },
+ "still_running_at_the_end": 0,
+ "seconds": 751
+}

@@ -1,0 +1,28 @@
+{
+ "scenarios": 300,
+ "probes": 5,
+ "seed0": 0,
+ "seconds": 203,
+ "violations": 0,
+ "by_check": {},
+ "outcomes": {
+  "aborted:hub_unreachable": 3,
+  "no_flow_above_limit": 55,
+  "aborted:telemetry_stale": 8,
+  "abandoned": 18,
+  "below_sensor_floor": 21,
+  "only_sources": 137,
+  "partial": 18,
+  "stopped": 27,
+  "aborted:pipe_moved": 6,
+  "upstream_remainder": 3,
+  "aborted:pipe_fault": 4
+ },
+ "refusals": {},
+ "asked_which_pipe_then_answered": 81,
+ "mutant": "",
+ "in_bound_scenarios": 110,
+ "in_bound_with_a_finding": 71,
+ "out_of_bound_false_accusations": 0,
+ "first_failures": []
+}

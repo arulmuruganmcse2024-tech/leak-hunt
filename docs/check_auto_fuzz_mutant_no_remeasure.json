@@ -1,0 +1,101 @@
+{
+ "scenarios": 100,
+ "probes": 5,
+ "seed0": 0,
+ "seconds": 85,
+ "violations": 2,
+ "by_check": {
+  "A14": 2
+ },
+ "outcomes": {
+  "aborted:hub_unreachable": 1,
+  "no_flow_above_limit": 21,
+  "aborted:telemetry_stale": 1,
+  "abandoned": 8,
+  "below_sensor_floor": 6,
+  "only_sources": 42,
+  "partial": 6,
+  "stopped": 9,
+  "aborted:pipe_moved": 3,
+  "upstream_remainder": 1,
+  "aborted:pipe_fault": 2
+ },
+ "refusals": {},
+ "asked_which_pipe_then_answered": 26,
+ "mutant": "no_remeasure",
+ "in_bound_scenarios": 47,
+ "in_bound_with_a_finding": 29,
+ "out_of_bound_false_accusations": 0,
+ "first_failures": [
+  {
+   "seed": 13,
+   "violations": [
+    "A14 no step, report or question for 151 s while ['shower'] was held closed at t=246"
+   ],
+   "scenario": {
+    "seed": 13,
+    "leaks": {
+     "shower": 3.1
+    },
+    "manual": [],
+    "ambient": [
+     [
+      123.70721715891679,
+      1.33
+     ]
+    ],
+    "faults": [],
+    "human": "slow",
+    "voice": [
+     {
+      "t": 81.57416887144836,
+      "pipe": "everything",
+      "state": "on",
+      "confirm": false
+     }
+    ],
+    "stop": null,
+    "suspect": null,
+    "isolation": "no",
+    "iso_delay": 83.3
+   }
+  },
+  {
+   "seed": 41,
+   "violations": [
+    "A14 no step, report or question for 151 s while ['shower'] was held closed at t=256"
+   ],
+   "scenario": {
+    "seed": 41,
+    "leaks": {
+     "shower": 3.98
+    },
+    "manual": [
+     "kitchen2"
+    ],
+    "ambient": [
+     [
+      156.3756359222548,
+      1.7
+     ]
+    ],
+    "faults": [],
+    "human": "slow",
+    "voice": [
+     {
+      "t": 112.26769957985908,
+      "pipe": "kitchen",
+      "state": "off",
+      "confirm": false
+     }
+    ],
+    "stop": null,
+    "suspect": [
+     "toilet"
+    ],
+    "isolation": "yes",
+    "iso_delay": 28.7
+   }
+  }
+ ]
+}

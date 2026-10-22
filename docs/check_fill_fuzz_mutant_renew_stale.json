@@ -1,0 +1,164 @@
+{
+ "scenarios": 150,
+ "seed0": 0,
+ "mutant": "renew_stale",
+ "seconds": 32,
+ "violations": 5,
+ "by_check": {
+  "F5": 5
+ },
+ "outcomes": {
+  "done": 77,
+  "hub_unreachable": 15,
+  "meter_lost": 2,
+  "outlet_stuck": 11,
+  "branch_closed": 6,
+  "stopped": 9,
+  "flow_changed": 11,
+  "open_dead": 14,
+  "hub_unreachable_paused": 3,
+  "meter_lost_paused": 2
+ },
+ "taps": {
+  "hose": 28,
+  "tub": 81,
+  "ktap": 41
+ },
+ "outcomes_by_tap": {
+  "tub": {
+   "hub_unreachable": 10,
+   "outlet_stuck": 6,
+   "done": 40,
+   "meter_lost": 1,
+   "stopped": 6,
+   "flow_changed": 5,
+   "open_dead": 8,
+   "branch_closed": 3,
+   "meter_lost_paused": 1,
+   "hub_unreachable_paused": 1
+  },
+  "ktap": {
+   "done": 22,
+   "branch_closed": 2,
+   "flow_changed": 4,
+   "stopped": 3,
+   "hub_unreachable_paused": 2,
+   "open_dead": 2,
+   "hub_unreachable": 3,
+   "outlet_stuck": 3
+  },
+  "hose": {
+   "done": 15,
+   "meter_lost": 1,
+   "hub_unreachable": 2,
+   "flow_changed": 2,
+   "open_dead": 4,
+   "meter_lost_paused": 1,
+   "outlet_stuck": 2,
+   "branch_closed": 1
+  }
+ },
+ "max_overfill_l_by_tap": {
+  "tub": 2.81,
+  "ktap": -0.32,
+  "hose": -0.2
+ },
+ "max_overfill_l": 2.81,
+ "max_overfill_l_clean": -0.28,
+ "max_overfill_l_no_outside_change": -0.2,
+ "max_overfill_l_with_outside_change": 2.81,
+ "max_said_vs_truth_l_when_done": 3.3800000000000026,
+ "max_said_vs_truth_l_when_done_clean": 0.07999999999998408,
+ "scenarios_with_an_outside_change": 39,
+ "scenarios_with_a_change_before_the_request": 25,
+ "max_overfill_l_change_before_request_rechecked": 0.03,
+ "max_overfill_l_change_before_request_not_rechecked": -0.34,
+ "fills_that_rechecked": 88,
+ "first_failures": [
+  {
+   "seed": 23,
+   "tap": "hose",
+   "outcome": "done",
+   "truth": 60.82,
+   "said": 63.2,
+   "target": 63.3,
+   "overfill": -2.48,
+   "changed": true,
+   "pre_changed": true,
+   "rechecked": true,
+   "allowance_l": 2.85,
+   "fault": "blackout",
+   "violations": [
+    "F5 extended the tap 1 times while the meter data was stale"
+   ]
+  },
+  {
+   "seed": 61,
+   "tap": "tub",
+   "outcome": "done",
+   "truth": 122.93,
+   "said": 122.93,
+   "target": 123.4,
+   "overfill": -0.47,
+   "changed": false,
+   "pre_changed": false,
+   "rechecked": true,
+   "allowance_l": 0.0,
+   "fault": "blackout",
+   "violations": [
+    "F5 extended the tap 6 times while the meter data was stale"
+   ]
+  },
+  {
+   "seed": 76,
+   "tap": "tub",
+   "outcome": "meter_lost_paused",
+   "truth": 10.83,
+   "said": 0.0,
+   "target": 38.0,
+   "overfill": -27.17,
+   "changed": false,
+   "pre_changed": false,
+   "rechecked": true,
+   "allowance_l": 0.0,
+   "fault": "blackout",
+   "violations": [
+    "F5 extended the tap 5 times while the meter data was stale"
+   ]
+  },
+  {
+   "seed": 110,
+   "tap": "hose",
+   "outcome": "meter_lost_paused",
+   "truth": 23.9,
+   "said": 7.11,
+   "target": 83.9,
+   "overfill": -60.0,
+   "changed": false,
+   "pre_changed": false,
+   "rechecked": true,
+   "allowance_l": 0.0,
+   "fault": "blackout",
+   "violations": [
+    "F5 extended the tap 8 times while the meter data was stale"
+   ]
+  },
+  {
+   "seed": 114,
+   "tap": "tub",
+   "outcome": "done",
+   "truth": 104.12,
+   "said": 104.12,
+   "target": 104.6,
+   "overfill": -0.48,
+   "changed": false,
+   "pre_changed": false,
+   "rechecked": true,
+   "allowance_l": 0.0,
+   "fault": "blackout",
+   "violations": [
+    "F5 extended the tap 2 times while the meter data was stale"
+   ]
+  }
+ ]
+}

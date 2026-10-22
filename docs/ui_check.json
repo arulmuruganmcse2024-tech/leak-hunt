@@ -1,0 +1,326 @@
+[
+ {
+  "name": "light_768x480",
+  "theme": "light",
+  "size": "768x480",
+  "mode": "fullscreen",
+  "tab_order": [
+   {
+    "tag": "BUTTON",
+    "id": "",
+    "t": "Find the leak",
+    "ow": "3px",
+    "os": "solid"
+   },
+   {
+    "tag": "BUTTON",
+    "id": "",
+    "t": "My pipes",
+    "ow": "3px",
+    "os": "solid"
+   },
+   {
+    "tag": "BODY",
+    "id": "",
+    "t": "\n\n  \n    Leak Hunt\n    S",
+    "ow": "0px",
+    "os": "none"
+   },
+   {
+    "tag": "BUTTON",
+    "id": "",
+    "t": "Find the leak",
+    "ow": "3px",
+    "os": "solid"
+   },
+   {
+    "tag": "BUTTON",
+    "id": "",
+    "t": "My pipes",
+    "ow": "3px",
+    "os": "solid"
+   },
+   {
+    "tag": "BODY",
+    "id": "",
+    "t": "\n\n  \n    Leak Hunt\n    S",
+    "ow": "0px",
+    "os": "none"
+   }
+  ],
+  "links": [
+   "http://127.0.0.1:8765/evidence/h_aacaeb54?k=6dba9b42cb536af9a23dd9bb"
+  ],
+  "steps": 4,
+  "parity_checks": 38,
+  "polls": 12,
+  "taps": 7,
+  "seconds": 21.5,
+  "js_errors": [],
+  "failures": []
+ },
+ {
+  "name": "dark_768x480",
+  "theme": "dark",
+  "size": "768x480",
+  "mode": "fullscreen",
+  "steps": 4,
+  "parity_checks": 41,
+  "polls": 13,
+  "taps": 5,
+  "seconds": 21.4,
+  "js_errors": [],
+  "failures": []
+ },
+ {
+  "name": "light_1280x800",
+  "theme": "light",
+  "size": "1280x800",
+  "mode": "fullscreen",
+  "steps": 4,
+  "parity_checks": 41,
+  "polls": 13,
+  "taps": 5,
+  "seconds": 21.2,
+  "js_errors": [],
+  "failures": []
+ },
+ {
+  "name": "dark_1280x800",
+  "theme": "dark",
+  "size": "1280x800",
+  "mode": "fullscreen",
+  "steps": 4,
+  "parity_checks": 41,
+  "polls": 13,
+  "taps": 5,
+  "seconds": 21.1,
+  "js_errors": [],
+  "failures": []
+ },
+ {
+  "name": "inline_light_600x260",
+  "theme": "light",
+  "size": "600x260",
+  "mode": "inline",
+  "steps": 4,
+  "parity_checks": 41,
+  "polls": 13,
+  "taps": 5,
+  "seconds": 21.1,
+  "js_errors": [],
+  "failures": []
+ },
+ {
+  "name": "phone_dark_360x640",
+  "theme": "dark",
+  "size": "360x640",
+  "mode": "fullscreen",
+  "steps": 4,
+  "parity_checks": 41,
+  "polls": 13,
+  "taps": 5,
+  "seconds": 21.1,
+  "js_errors": [],
+  "failures": []
+ },
+ {
+  "name": "auto_light_768x480",
+  "theme": "light",
+  "size": "768x480",
+  "mode": "fullscreen",
+  "steps": 1,
+  "parity_checks": 33,
+  "polls": 10,
+  "taps": 6,
+  "seconds": 21.7,
+  "js_errors": [],
+  "failures": []
+ },
+ {
+  "name": "auto_dark_1280x800",
+  "theme": "dark",
+  "size": "1280x800",
+  "mode": "fullscreen",
+  "steps": 1,
+  "parity_checks": 33,
+  "polls": 10,
+  "taps": 4,
+  "seconds": 19.5,
+  "js_errors": [],
+  "failures": []
+ },
+ {
+  "name": "auto_phone_light_360x640",
+  "theme": "light",
+  "size": "360x640",
+  "mode": "fullscreen",
+  "steps": 1,
+  "parity_checks": 33,
+  "polls": 10,
+  "taps": 6,
+  "seconds": 21.7,
+  "js_errors": [],
+  "failures": []
+ },
+ {
+  "name": "fill_kitchen_phone_light_360x640",
+  "theme": "light",
+  "size": "360x640",
+  "mode": "fullscreen",
+  "steps": 0,
+  "parity_checks": 12,
+  "polls": 0,
+  "taps": 0,
+  "seconds": 7.7,
+  "broken_variant_hidden_wire_caught": true,
+  "broken_variant_hidden_timer_caught": true,
+  "progress_values": [
+   1,
+   3,
+   4,
+   5
+  ],
+  "offer_hunt": true,
+  "failures": [],
+  "js_errors": []
+ },
+ {
+  "name": "pipes_light_768x480",
+  "theme": "light",
+  "size": "768x480",
+  "mode": "fullscreen",
+  "steps": 0,
+  "parity_checks": 1,
+  "polls": 0,
+  "taps": 0,
+  "seconds": 0,
+  "js_errors": [],
+  "failures": []
+ },
+ {
+  "name": "fill_dark_1280x800",
+  "theme": "dark",
+  "size": "1280x800",
+  "mode": "fullscreen",
+  "steps": 0,
+  "parity_checks": 75,
+  "polls": 0,
+  "taps": 0,
+  "seconds": 39.5,
+  "broken_variant_hidden_wire_caught": true,
+  "broken_variant_hidden_timer_caught": true,
+  "progress_values": [
+   1,
+   2,
+   4,
+   6,
+   8,
+   10,
+   11,
+   13,
+   15,
+   17,
+   19,
+   21
+  ],
+  "offer_hunt": true,
+  "failures": [],
+  "js_errors": []
+ },
+ {
+  "name": "modes_light_768x480",
+  "theme": "light",
+  "size": "768x480",
+  "mode": "fullscreen",
+  "steps": 0,
+  "parity_checks": 3,
+  "polls": 0,
+  "taps": 2,
+  "seconds": 6.6,
+  "broken_variant_hidden_yes_caught": true,
+  "failures": [],
+  "js_errors": []
+ },
+ {
+  "name": "power_light_768x480",
+  "theme": "light",
+  "size": "768x480",
+  "mode": "fullscreen",
+  "steps": 6,
+  "parity_checks": 6,
+  "polls": 50,
+  "taps": 5,
+  "seconds": 32.0,
+  "broken_variant_water_words_caught": true,
+  "failures": [],
+  "js_errors": []
+ },
+ {
+  "name": "power_phone_dark_360x640",
+  "theme": "dark",
+  "size": "360x640",
+  "mode": "fullscreen",
+  "steps": 6,
+  "parity_checks": 6,
+  "polls": 50,
+  "taps": 5,
+  "seconds": 31.9,
+  "broken_variant_water_words_caught": true,
+  "failures": [],
+  "js_errors": []
+ },
+ {
+  "name": "plug_dark_1280x800",
+  "theme": "dark",
+  "size": "1280x800",
+  "mode": "fullscreen",
+  "steps": 0,
+  "parity_checks": 0,
+  "polls": 0,
+  "taps": 0,
+  "seconds": 34.0,
+  "wall_seconds_to_reopen": 17.1,
+  "controller": {
+   "silent_s": 122,
+   "lease_s": 120,
+   "lapsed": [
+    {
+     "id": "toilet",
+     "label": "toilet",
+     "outlet": false,
+     "after_s": 99
+    },
+    {
+     "id": "shower",
+     "label": "shower",
+     "outlet": false,
+     "after_s": 119
+    }
+   ]
+  },
+  "broken_variant_missing_veil_caught": true,
+  "after_restart": {
+   "status": "aborted",
+   "outcome": "aborted:pipe_moved:toilet",
+   "speech": "toilet isn't where I left it, so something else moved it. I stopped rather than guess, and reopened what I closed."
+  },
+  "failures": [],
+  "js_errors": []
+ },
+ {
+  "name": "challenge_dark_1280x800",
+  "theme": "dark",
+  "size": "1280x800",
+  "mode": "fullscreen",
+  "reveal": "Verdict (the hunt has finished: only_sources)\nHIDDEN\ngarden tap, 3.63 L/min\nLEAK HUNT\n\u2713 isolated to the water behind garden tap\nSIMPLEST RULE\n\u2717 accuses kitchen pipe 2 and garden tap - WRONG, kitchen pipe 2 has no leak\nRight. The flow was isolated to the water behind garden tap, and that is where the leak was.\nThrown at it: ambient_off @105s (scripted). Round 2, seed 11. The simplest rule is \"the first drop wins\", run on the same readings: a comparison, not a commercial product. This timing was chosen; use New hidden round for a random one.",
+  "broken_variant_verdict_below_the_fold_caught": true,
+  "steps": 1,
+  "parity_checks": 69,
+  "polls": 22,
+  "taps": 4,
+  "seconds": 38.0,
+  "js_errors": [],
+  "failures": []
+ }
+]

@@ -1,0 +1,151 @@
+{
+ "M1_single_drop_confirms": {
+  "caught": true,
+  "evidence": {
+   "stage": "closed-loop faults, <=1 fault",
+   "truth": "K_leaks",
+   "schedule": [
+    "Q",
+    "V",
+    "V",
+    "V",
+    "C:B",
+    "V",
+    "V",
+    "V",
+    "C:K",
+    "V",
+    "V",
+    "V",
+    "O:B",
+    "V",
+    "X",
+    "V",
+    "V"
+   ],
+   "violation": [
+    "P1 false branch B"
+   ]
+  },
+  "nodes_examined": 1596,
+  "stages_run": [
+   "closed-loop faults, <=1 fault"
+  ],
+  "seconds": 0.4
+ },
+ "M2_ignore_valve_in_windows": {
+  "caught": true,
+  "evidence": {
+   "stage": "fixed-script faults, <=2 faults",
+   "truth": "T_leaks",
+   "schedule": [
+    "F",
+    "Q",
+    "V",
+    "V",
+    "V"
+   ],
+   "violation": [
+    "P2 window contains a closed/leak reading"
+   ]
+  },
+  "nodes_examined": 218569,
+  "stages_run": [
+   "closed-loop faults, <=1 fault",
+   "fixed-script faults, <=2 faults"
+  ],
+  "seconds": 63.7
+ },
+ "M3_same_side_replication": {
+  "caught": true,
+  "evidence": {
+   "stage": "closed-loop faults, <=1 fault",
+   "truth": "ambient_tap_then_stops",
+   "schedule": [
+    "Q",
+    "V",
+    "V",
+    "V",
+    "C:B",
+    "V",
+    "V",
+    "V",
+    "C:K",
+    "V",
+    "X",
+    "V",
+    "V",
+    "O:K",
+    "V",
+    "V",
+    "V",
+    "S",
+    "V",
+    "V",
+    "V"
+   ],
+   "violation": [
+    "P1 false branch B"
+   ]
+  },
+  "nodes_examined": 5050,
+  "stages_run": [
+   "closed-loop faults, <=1 fault"
+  ],
+  "seconds": 1.4
+ },
+ "M4_no_reboot_guard": {
+  "caught": false,
+  "evidence": null,
+  "nodes_examined": 1865306,
+  "stages_run": [
+   "closed-loop faults, <=1 fault",
+   "fixed-script faults, <=2 faults",
+   "closed-loop faults, <=2 faults"
+  ],
+  "seconds": 1545.7
+ },
+ "M5_no_reboot_no_counter_checks": {
+  "caught": true,
+  "evidence": {
+   "stage": "closed-loop faults, <=1 fault",
+   "truth": "T_leaks",
+   "schedule": [
+    "Q",
+    "V",
+    "V",
+    "V",
+    "C:B",
+    "V",
+    "V",
+    "V",
+    "O:B",
+    "V",
+    "V",
+    "V",
+    "C:T",
+    "V",
+    "V",
+    "V",
+    "O:T",
+    "V",
+    "V",
+    "V",
+    "C:T",
+    "V",
+    "R",
+    "V",
+    "V"
+   ],
+   "violation": [
+    "P2 window spans a reboot",
+    "P2 window contains another boot"
+   ]
+  },
+  "nodes_examined": 2031,
+  "stages_run": [
+   "closed-loop faults, <=1 fault"
+  ],
+  "seconds": 1.8
+ }
+}

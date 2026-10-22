@@ -1,0 +1,162 @@
+{
+ "scenarios": 150,
+ "seed0": 0,
+ "mutant": "no_stop_close",
+ "seconds": 32,
+ "violations": 5,
+ "by_check": {
+  "F6": 5
+ },
+ "outcomes": {
+  "done": 75,
+  "hub_unreachable": 15,
+  "meter_lost": 6,
+  "outlet_stuck": 15,
+  "branch_closed": 6,
+  "stopped": 5,
+  "flow_changed": 11,
+  "open_dead": 14,
+  "hub_unreachable_paused": 3
+ },
+ "taps": {
+  "hose": 28,
+  "tub": 81,
+  "ktap": 41
+ },
+ "outcomes_by_tap": {
+  "tub": {
+   "hub_unreachable": 10,
+   "outlet_stuck": 8,
+   "done": 39,
+   "meter_lost": 3,
+   "stopped": 4,
+   "flow_changed": 5,
+   "open_dead": 8,
+   "branch_closed": 3,
+   "hub_unreachable_paused": 1
+  },
+  "ktap": {
+   "done": 21,
+   "branch_closed": 2,
+   "flow_changed": 4,
+   "stopped": 1,
+   "hub_unreachable_paused": 2,
+   "open_dead": 2,
+   "hub_unreachable": 3,
+   "meter_lost": 1,
+   "outlet_stuck": 5
+  },
+  "hose": {
+   "done": 15,
+   "meter_lost": 2,
+   "hub_unreachable": 2,
+   "flow_changed": 2,
+   "open_dead": 4,
+   "outlet_stuck": 2,
+   "branch_closed": 1
+  }
+ },
+ "max_overfill_l_by_tap": {
+  "tub": 2.81,
+  "ktap": -0.32,
+  "hose": 0.01
+ },
+ "max_overfill_l": 2.81,
+ "max_overfill_l_clean": -0.28,
+ "max_overfill_l_no_outside_change": -0.2,
+ "max_overfill_l_with_outside_change": 2.81,
+ "max_said_vs_truth_l_when_done": 3.3800000000000026,
+ "max_said_vs_truth_l_when_done_clean": 0.07999999999998408,
+ "scenarios_with_an_outside_change": 39,
+ "scenarios_with_a_change_before_the_request": 25,
+ "max_overfill_l_change_before_request_rechecked": 0.03,
+ "max_overfill_l_change_before_request_not_rechecked": -0.34,
+ "fills_that_rechecked": 86,
+ "first_failures": [
+  {
+   "seed": 13,
+   "tap": "tub",
+   "outcome": "stopped",
+   "truth": 14.25,
+   "said": 12.97,
+   "target": 14.0,
+   "overfill": 0.25,
+   "changed": true,
+   "pre_changed": false,
+   "rechecked": false,
+   "allowance_l": 1.28,
+   "fault": "stop",
+   "violations": [
+    "F6 stop did not close the tap at once"
+   ]
+  },
+  {
+   "seed": 26,
+   "tap": "ktap",
+   "outcome": "stopped",
+   "truth": 3.8,
+   "said": 3.8,
+   "target": 4.9,
+   "overfill": -1.1,
+   "changed": true,
+   "pre_changed": false,
+   "rechecked": false,
+   "allowance_l": 0.0,
+   "fault": "stop",
+   "violations": [
+    "F6 stop did not close the tap at once"
+   ]
+  },
+  {
+   "seed": 107,
+   "tap": "tub",
+   "outcome": "stopped",
+   "truth": 33.63,
+   "said": 33.16,
+   "target": 146.1,
+   "overfill": -112.47,
+   "changed": false,
+   "pre_changed": true,
+   "rechecked": false,
+   "allowance_l": 3.84,
+   "fault": "stop",
+   "violations": [
+    "F6 stop did not close the tap at once"
+   ]
+  },
+  {
+   "seed": 127,
+   "tap": "tub",
+   "outcome": "stopped",
+   "truth": 6.84,
+   "said": 6.64,
+   "target": 12.9,
+   "overfill": -6.06,
+   "changed": false,
+   "pre_changed": false,
+   "rechecked": false,
+   "allowance_l": 0.0,
+   "fault": "stop",
+   "violations": [
+    "F6 stop did not close the tap at once"
+   ]
+  },
+  {
+   "seed": 149,
+   "tap": "tub",
+   "outcome": "stopped",
+   "truth": 5.13,
+   "said": 4.27,
+   "target": 5.8,
+   "overfill": -0.67,
+   "changed": false,
+   "pre_changed": true,
+   "rechecked": false,
+   "allowance_l": 0.72,
+   "fault": "stop",
+   "violations": [
+    "F6 stop did not close the tap at once"
+   ]
+  }
+ ]
+}

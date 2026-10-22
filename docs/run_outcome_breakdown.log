@@ -1,0 +1,72 @@
+50/300 42s
+100/300 66s
+150/300 93s
+200/300 130s
+250/300 178s
+300/300 198s
+{
+ "scenarios": 300,
+ "seed0": 0,
+ "floor_lpm_assumed": 1.0,
+ "in_bound": {
+  "total": 110,
+  "findable": {
+   "total": 83,
+   "buckets": {
+    "named_a_valve_with_a_leak": 71,
+    "named_a_dry_valve": 0,
+    "stopped_by_the_house_or_a_fault": 0,
+    "customer_never_answered": 11,
+    "said_where_the_water_is_not": 1,
+    "other_nothing_named": 0
+   }
+  },
+  "nothing_to_find": {
+   "total": 27,
+   "buckets": {
+    "said_nothing_above_the_limit": 25,
+    "named_a_valve": 0,
+    "customer_never_answered": 2,
+    "stopped_by_the_house_or_a_fault": 0,
+    "other": 0
+   }
+  }
+ },
+ "outside_bound": {
+  "total": 190,
+  "findable": {
+   "total": 134,
+   "buckets": {
+    "named_a_valve_with_a_leak": 105,
+    "named_a_dry_valve": 0,
+    "stopped_by_the_house_or_a_fault": 25,
+    "customer_never_answered": 2,
+    "said_where_the_water_is_not": 2,
+    "other_nothing_named": 0
+   }
+  },
+  "nothing_to_find": {
+   "total": 56,
+   "buckets": {
+    "said_nothing_above_the_limit": 51,
+    "named_a_valve": 0,
+    "customer_never_answered": 3,
+    "stopped_by_the_house_or_a_fault": 2,
+    "other": 0
+   }
+  }
+ },
+ "findable_with_a_present_customer": {
+  "total": 72,
+  "named_a_valve_with_a_leak": 71,
+  "named_a_dry_valve": 0
+ },
+ "wrong_valve_outside_the_bound": 0,
+ "simulated_seconds_to_a_named_valve": {
+  "median": 335,
+  "max": 585,
+  "n": 71
+ },
+ "seconds": 198
+}
+matches docs/check_auto_fuzz.json: True

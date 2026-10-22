@@ -1,0 +1,56 @@
+LEAK HUNT - reproduction (simulated house, fake clock, no hardware)
+
+=== 1. A normal hunt: yes, isolate, ask before keeping it closed, replayable evidence
+  Customer: Alexa, find my leak.
+  Alexa: I can find it two ways. I can run the test myself: I'll close your pipes one after another, so water to them is off for a few minutes in total, and I'll turn everything back on when I'm done or when you say stop; if I find the leak I'll ask before keeping anything off. Or I can guide you valve by valve. Which would you like?
+  Customer: Yes, you run it.
+  Alexa: This is a simulated house for the demo. Before I start, make sure nothing is using water: taps, washing machine, cistern fills. I've opened all my pipes and I'll run the rest myself. Tell me when it's quiet.
+  Alexa: Confirmed: 2.0 litres per minute is flowing behind the toilet valve. Closing it stopped that flow and reopening it brought it back, with matching size both times. The flow is isolated to the water behind that valve. With only the toilet isolated and everything else open, no water moves above 1.0 litres per minute. Nothing else is running continuously above that limit. I'm holding the toilet off for up to two minutes while you decide. Do you want it kept off until it has been checked? Say 'keep it off', or 'turn it back on'. If I don't hear from you, your pipe controller turns it back on by itself, and everything else is already on.
+  Customer: Yes, keep the toilet off.
+  Alexa: Toilet is off. I'll keep the toilet off until you tell me it's been repaired. Then say 'turn on the toilet'.
+  facts: {"closed_while_asking": ["toilet"], "every_close_has_a_lease": true, "evidence_replays_to_the_same_result": true, "evidence_sha256": "cd5fc9e0da1e88546748593c9a0229d72b80383e67845af89f5f92c5393daa6c", "found": ["toilet"], "latched_after_yes": ["toilet"], "latched_before_yes": [], "outcome": "only_sources", "valve_commands": 4}
+
+=== 2. One unlucky outside change: a 'first drop wins' engine accuses a dry pipe, Leak Hunt does not
+  -- hidden: one leak in this simulated house; a tap is already running; it will stop once, 12 s after the 4th pipe is closed
+  Alexa: Confirmed: 4.2 litres per minute is flowing behind the garden tap valve. Closing it stopped that flow and reopening it brought it back, with matching size both times. The flow is isolated to the water behind that valve. With only the garden tap isolated and everything else open, no water moves above 1.0 litres per minute. Nothing else is running continuously above that limit. I'm holding the garden tap off for up to two minutes while you decide. Do you want it kept off until it has been checked? Say 'keep it off', or 'turn it back on'. If I don't hear from you, your pipe controller turns it back on by itself, and everything else is already on.
+  -- reveal: garden tap 3.63 L/min
+  -- Leak Hunt isolated the flow to the water behind: garden tap  [right]
+  -- a 'first drop wins' engine on the same readings accuses: kitchen pipe 2, garden tap  [false_accusation: kitchen pipe 2 has no leak]
+  -- Right. The flow was isolated to the water behind garden tap, and that is where the leak was.
+  facts: {"hidden": ["garden tap"], "leak_hunt": ["garden tap"], "leak_hunt_grade": "right", "naive": ["kitchen pipe 2", "garden tap"], "naive_grade": "false_accusation", "outside_changes": 1, "within_claimed_bound": true}
+
+=== 3. The house will not hold still: it says so instead of guessing
+  -- hidden: a kitchen leak. Thrown at it: a tap on at 100 s and off at 140 s (two outside changes, beyond the one-change bound)
+  Alexa: The water use in the house keeps changing between measurements, so I can't give you a trustworthy answer. I stopped and put everything back.
+  -- It has not named a source. A leak above the sensor's limit is hidden behind kitchen pipe 2. Not naming it is a miss or a wait, not a false accusation; read its statement against the truth, because with 2 outside changes a wrong answer is possible and documented.
+  facts: {"leak_hunt_found": [], "leak_hunt_grade": "declined", "outcome": "aborted:house_not_quiet", "outside_changes": 2, "still_closed": []}
+
+=== 4. 'Stop' in the middle of a hunt
+  Customer: Alexa, stop.
+  Alexa: Stopped. I've put back every pipe I closed.
+  facts: {"closed_after_stop": [], "closed_when_stop_was_said": ["toilet"], "status": "stopped", "unconfirmed": []}
+
+=== 5. The sensor's data stops: pause at 35 s, abort at 60 s, nothing moved in between
+  -- the sensor's link drops while toilet is closed on a lease
+  Alexa: I've paused: my water-sensor data is out of date. I won't switch any pipe until it is back. If it stays out, I'll stop and turn everything back on.
+  Alexa: I lost sight of your water sensor, so I stopped the test and reopened everything I closed.
+  facts: {"abort_limit_s": 60.0, "aborted_when_the_data_was_this_old_s": 61, "closed_after": [], "commands_between_the_pause_and_the_abort": [], "outcome": "aborted:telemetry_stale", "paused_when_the_data_was_this_old_s": 36, "restore_at_the_abort": [["hunt-end", "toilet", "open"]], "stale_limit_s": 35.0}
+
+=== 6. The add-on dies with pipes closed: the pipe controller's own timer reopens them
+  -- the add-on process is gone from here on: no tick, no renew, no status call. Only the controller's clock runs.
+  Controller: every pipe is open again, reopened by its own lease timer
+  facts: {"closed_after_the_lease_ran_out": [], "closed_when_the_add_on_died": ["toilet"], "lease_s": 120.0, "longest_any_pipe_was_closed_s": 120.0, "silent_for_s": 125}
+
+=== 7. An evidence packet that has been altered no longer verifies
+  -- the packet proves integrity and that the same readings replay to the same result; it does not prove the diagnosis is true
+  facts: {"one_reading_changed": {"hash_ok": false, "hmac_ok": true, "replay_matches": true}, "untouched": {"hash_ok": true, "hmac_ok": true, "replay_matches": true}}
+
+=== 8. Fill the bath by volume: the controller's timer is the fill timer
+  Customer: Alexa, fill the bath, 120 litres.
+  Alexa: Filling the bathtub with 120 litres. I'll stop it at 120, and your pipe controller closes it by itself if it stops hearing from me. About 2.0 litres a minute was already moving somewhere else before I opened it; I'm leaving that out of the count.
+  Alexa: The bathtub is filled: about 120 litres went in. Before I opened the tap, about 2.0 litres a minute was already moving somewhere else. If nothing should be running, I can find where it's going. Want me to?
+  -- second fill: the add-on stops 625 s in (about 30 s before the end); only the controller's own timer runs from then on
+  Controller: the tap closed itself when the lease ran out, at about the amount
+  facts: {"alexa_said_l": 119.5, "dead_addon_really_delivered_l": 120.0, "dead_addon_tap_closed": true, "longest_tap_lease_s": 60.0, "paused_once_to_recheck": true, "really_delivered_l": 119.5, "recheck_measured_elsewhere_lpm": 1.998, "seconds_open_without_a_lease": 0, "target_l": 120}
+
+deterministic (two runs, byte-identical): yes

@@ -1,0 +1,40 @@
+25/300 scenarios, violations so far: 0, 29s
+50/300 scenarios, violations so far: 0, 45s
+75/300 scenarios, violations so far: 0, 58s
+100/300 scenarios, violations so far: 0, 73s
+125/300 scenarios, violations so far: 0, 88s
+150/300 scenarios, violations so far: 0, 103s
+175/300 scenarios, violations so far: 0, 119s
+200/300 scenarios, violations so far: 0, 140s
+225/300 scenarios, violations so far: 0, 161s
+250/300 scenarios, violations so far: 0, 191s
+275/300 scenarios, violations so far: 0, 202s
+300/300 scenarios, violations so far: 0, 213s
+{
+ "scenarios": 300,
+ "probes": 5,
+ "seed0": 0,
+ "seconds": 215,
+ "violations": 0,
+ "by_check": {},
+ "outcomes": {
+  "aborted:hub_unreachable": 3,
+  "no_flow_above_limit": 55,
+  "aborted:telemetry_stale": 9,
+  "abandoned": 18,
+  "below_sensor_floor": 21,
+  "only_sources": 119,
+  "partial": 21,
+  "stopped": 39,
+  "aborted:pipe_moved": 7,
+  "aborted:pipe_fault": 3,
+  "upstream_remainder": 5
+ },
+ "refusals": {},
+ "asked_which_pipe_then_answered": 81,
+ "mutant": "",
+ "in_bound_scenarios": 110,
+ "in_bound_with_a_finding": 70,
+ "out_of_bound_false_accusations": 0,
+ "first_failures": []
+}

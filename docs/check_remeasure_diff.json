@@ -1,0 +1,161 @@
+{
+ "scenarios": 300,
+ "changed": 6,
+ "in_bound_with_a_finding": {
+  "fixed": 71,
+  "before_fix": 72
+ },
+ "violations": {
+  "fixed": 0,
+  "before_fix": 3
+ },
+ "outcomes": {
+  "fixed": {
+   "aborted": 21,
+   "no_flow_above_limit": 55,
+   "abandoned": 18,
+   "below_sensor_floor": 21,
+   "only_sources": 137,
+   "partial": 18,
+   "stopped": 27,
+   "upstream_remainder": 3
+  },
+  "before_fix": {
+   "aborted": 21,
+   "no_flow_above_limit": 55,
+   "abandoned": 22,
+   "below_sensor_floor": 21,
+   "only_sources": 137,
+   "partial": 16,
+   "stopped": 27,
+   "upstream_remainder": 1
+  }
+ },
+ "changed_scenarios": [
+  {
+   "seed": 13,
+   "in_bound": false,
+   "before_fix": {
+    "outcome": "abandoned",
+    "found": [
+     "shower"
+    ],
+    "virtual_s": 2056,
+    "violations": [
+     "A14"
+    ]
+   },
+   "fixed": {
+    "outcome": "partial",
+    "found": [
+     "shower"
+    ],
+    "virtual_s": 585,
+    "violations": []
+   }
+  },
+  {
+   "seed": 41,
+   "in_bound": false,
+   "before_fix": {
+    "outcome": "abandoned",
+    "found": [
+     "shower"
+    ],
+    "virtual_s": 2066,
+    "violations": [
+     "A14"
+    ]
+   },
+   "fixed": {
+    "outcome": "partial",
+    "found": [
+     "shower"
+    ],
+    "virtual_s": 535,
+    "violations": []
+   }
+  },
+  {
+   "seed": 106,
+   "in_bound": false,
+   "before_fix": {
+    "outcome": "partial",
+    "found": [
+     "kitchen2"
+    ],
+    "virtual_s": 495,
+    "violations": []
+   },
+   "fixed": {
+    "outcome": "only_sources",
+    "found": [
+     "kitchen2"
+    ],
+    "virtual_s": 545,
+    "violations": []
+   }
+  },
+  {
+   "seed": 154,
+   "in_bound": true,
+   "before_fix": {
+    "outcome": "abandoned",
+    "found": [
+     "kitchen2"
+    ],
+    "virtual_s": 2078,
+    "violations": [
+     "A14"
+    ]
+   },
+   "fixed": {
+    "outcome": "upstream_remainder",
+    "found": [],
+    "virtual_s": 505,
+    "violations": []
+   }
+  },
+  {
+   "seed": 228,
+   "in_bound": false,
+   "before_fix": {
+    "outcome": "only_sources",
+    "found": [
+     "shower",
+     "garden"
+    ],
+    "virtual_s": 1055,
+    "violations": []
+   },
+   "fixed": {
+    "outcome": "partial",
+    "found": [
+     "shower",
+     "garden"
+    ],
+    "virtual_s": 545,
+    "violations": []
+   }
+  },
+  {
+   "seed": 299,
+   "in_bound": false,
+   "before_fix": {
+    "outcome": "abandoned",
+    "found": [
+     "shower"
+    ],
+    "virtual_s": 2178,
+    "violations": []
+   },
+   "fixed": {
+    "outcome": "upstream_remainder",
+    "found": [],
+    "virtual_s": 615,
+    "violations": []
+   }
+  }
+ ],
+ "seconds": 225
+}

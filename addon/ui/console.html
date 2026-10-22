@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leak Hunt</title>
+<style>
+:root{
+  --bg:#ffffff; --card:#f6f8fa; --line:#c3cad3; --fg:#111827; --fg2:#434c5a; --accent:#00607f; --accent-fg:#ffffff;
+  --chip:#e9edf1; --ok:#0b6b2f; --ok-line:#2f8a50; --warn:#8a3b00; --warn-line:#b86a1f; --danger:#a8201a;
+  --sim-fg:#6b3f00; --sim-bg:#fff6e0; --sim-line:#a76a00; --err-fg:#8c1d18; --err-bg:#fdecea; --focus:#0a58ca;
+  --line-flow:#00607f; --floor:#b3261e; --bar:#8a4b00; --bar-low:#7a8594;
+}
+html[data-theme="dark"]{
+  --bg:#12151c; --card:#1b212b; --line:#344050; --fg:#f3f5f8; --fg2:#bcc5d2; --accent:#4fd8ff; --accent-fg:#04202b;
+  --chip:#262e3b; --ok:#8ae6a8; --ok-line:#3c9a5d; --warn:#ffb870; --warn-line:#b97a3a; --danger:#ff9088;
+  --sim-fg:#ffcf70; --sim-bg:#2c2412; --sim-line:#b88a2e; --err-fg:#ffb4ac; --err-bg:#3a1b19; --focus:#8ab4ff;
+  --line-flow:#4fd8ff; --floor:#ff8a80; --bar:#e0a458; --bar-low:#8794a6;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);
+  font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+html.compact,html.compact body{height:auto}
+#app{height:100%;display:flex;flex-direction:column;gap:12px;padding:12px 16px}
+#app.compact{height:auto}
+header{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;min-height:36px}
+h1{font-size:20px;line-height:1.2;margin:0;font-weight:700}
+.badge,.chip{display:inline-flex;align-items:center;border-radius:999px;font-size:14px;font-weight:600;padding:3px 12px;line-height:1.3}
+.badge.sim{background:var(--sim-bg);color:var(--sim-fg);border:1.5px solid var(--sim-line)}
+.badge.auto{background:var(--accent);color:var(--accent-fg);border:1.5px solid var(--accent)}
+.chip{background:var(--chip);color:var(--fg);border:1px solid var(--line)}
+.grow{flex:1}
+main{flex:1;min-height:0;display:grid;grid-template-columns:1.12fr 1fr;grid-template-rows:minmax(0,1fr);gap:12px}
+main.single{grid-template-columns:1fr}
+#app.compact main{display:flex;flex-direction:column}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;min-height:0;overflow:hidden;
+  display:flex;flex-direction:column;gap:8px}
+#app.compact .card{overflow:visible}
+.kicker{margin:0;font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2)}
+.say{margin:0;font-size:28px;line-height:1.22;font-weight:700;overflow-wrap:anywhere}
+#app.compact .say{font-size:21px}
+.know{margin:0;padding-left:20px;color:var(--fg2);font-size:15px;line-height:1.4}
+.know li{margin:2px 0}
+.hint{font-size:15px;color:var(--fg2);margin:0}
+.err{margin:0;padding:8px 12px;border-radius:10px;background:var(--err-bg);color:var(--err-fg);font-weight:600;font-size:15px;border:1px solid var(--err-fg)}
+.chart{margin-top:auto;flex:0 0 auto}
+.chart svg{display:block;width:100%;height:auto}
+.nochart .chart{display:none}
+.nobullets .know{display:none}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;min-height:56px}
+.actions .hint{margin-left:auto;text-align:right}
+.btn{min-height:48px;min-width:48px;padding:0 22px;border-radius:10px;border:2px solid var(--fg);background:transparent;color:var(--fg);
+  font:inherit;font-size:18px;font-weight:700;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.btn.danger{border-color:var(--danger);color:var(--danger)}
+.btn.small{font-size:16px;padding:0 14px}
+.btn:disabled{opacity:.55;cursor:default}
+.btn:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.valves{display:flex;flex-direction:column;gap:6px;min-height:0;overflow:auto}
+.valve{flex:0 0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:6px 10px;border-radius:10px;border:1px solid transparent;min-height:40px}
+.valve.next{border:2px solid var(--accent);background:var(--chip)}
+.valve .name{font-weight:700;font-size:16px;color:var(--fg)}
+.valve .how{flex-basis:100%;font-size:13px;color:var(--fg2)}
+.valve.d1{margin-left:14px;border-left:2px solid var(--line);border-radius:0 10px 10px 0}
+.valve.d2{margin-left:28px;border-left:2px solid var(--line);border-radius:0 10px 10px 0}
+.pill{display:inline-flex;align-items:center;border-radius:999px;font-size:13px;font-weight:700;padding:1px 10px;line-height:1.5;
+  color:var(--fg);background:var(--chip);border:1px solid var(--line)}
+.pill.ok{color:var(--ok);background:transparent;border:1.5px solid var(--ok-line)}
+.pill.warn{color:var(--warn);background:transparent;border:1.5px solid var(--warn-line)}
+.pill.next{background:var(--accent);color:var(--accent-fg);border:1px solid var(--accent)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px;overflow:auto;min-height:0}
+#app.compact .tiles{grid-template-columns:1fr}
+.tile{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);min-height:58px}
+.tile .nm{flex:1;min-width:0}
+.tile .nm b{display:block;font-size:16px;overflow-wrap:anywhere}
+.nights{display:flex;align-items:flex-end;gap:4px;height:100%;min-height:120px}
+.rules{margin:0;padding-left:20px;font-size:16px;color:var(--fg2)}
+.rules li{margin:6px 0}
+.center{justify-content:center}
+.gauge{display:flex;flex-direction:column;gap:10px}
+.gauge .big{font-size:40px;font-weight:800;line-height:1.1}
+.gauge .big small{font-size:20px;font-weight:700;color:var(--fg2)}
+.bar{height:22px;border-radius:11px;background:var(--chip);border:1px solid var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--line-flow)}
+.facts{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:16px}
+.facts dt{color:var(--fg2)} .facts dd{margin:0;font-weight:700}
+.timer{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1.5px solid var(--accent);font-size:16px}
+.timer b{font-size:26px}
+.sr{position:absolute;left:-9999px}
+@media (max-width:560px){ .btn{width:100%} .actions .hint{margin-left:0;text-align:left} }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>Leak Hunt</h1>
+    <span id="sim" class="badge sim" hidden></span>
+    <span id="mode" class="badge auto" hidden>Alexa is in charge</span>
+    <span class="grow"></span>
+    <span id="flow" class="chip" hidden></span>
+  </header>
+  <main id="main"><section class="card" id="card-main"></section><section class="card" id="card-side"></section></main>
+  <div class="actions" id="actions" role="group" aria-label="Actions"></div>
+</div>
+<script>
+(function(){
+'use strict';
+var $ = function(s, r){ return (r || document).querySelector(s); };
+var state = {pres:null, last:null, nodes:null, busy:false, err:'', compact:false, host:{theme:null, mode:'fullscreen', w:0, h:0}, ready:false};
+window.__leakhunt = {state:state};
+var btns = [], btnSig = '';
+
+/* ------------------------------------------------------------------ Power Hunt: the same screen in power words.
+   The rules are addon/vocab.py's, put in by the server; the speech already arrives translated, this covers the screen's own labels. */
+var POWER_RULES = [/*POWER_RULES*/];
+var UTIL = 'water', compiledRules = null;
+var POWER_TOOLS = {water_status:1, start_leak_hunt:1, stop_leak_hunt:1, list_pipes:1, set_pipe:1, report_step:1, hunt_status:1, night_flow:1, evidence_packet:1};
+function powerText(s){
+  if(!compiledRules) compiledRules = POWER_RULES.map(function(r){ return [new RegExp(r[0], 'g'), r[1]]; });
+  compiledRules.forEach(function(r){
+    if(r[1] === '@W' || r[1] === '@WS') s = s.replace(r[0], function(m, g){ var x = parseFloat(g); return ((x >= 9.95 || x === 0) ? x.toFixed(0) : x.toFixed(1)) + (r[1] === '@W' ? ' watts' : ' W'); });
+    else s = s.replace(r[0], r[1]);
+  });
+  return s;
+}
+function powerWords(root){
+  var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), n;
+  while((n = w.nextNode())){ var t = n.nodeValue; if(/[A-Za-z]/.test(t)){ var u = powerText(t); if(u !== t) n.nodeValue = u; } }
+  Array.prototype.forEach.call(root.querySelectorAll('[aria-label]'), function(el){ var t = el.getAttribute('aria-label'), u = powerText(t); if(u !== t) el.setAttribute('aria-label', u); });
+}
+function withUtility(name, args){
+  return (UTIL === 'power' && POWER_TOOLS[name]) ? Object.assign({}, args || {}, {utility:'power'}) : (args || {});
+}
+
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function fmt(n){ return (Math.round(n * 10) / 10).toFixed(1); }
+
+/* ------------------------------------------------------------------ host messaging (MCP Apps, JSON-RPC over postMessage) */
+var nextId = 1, pending = {};
+function send(m){ try { parent.postMessage(m, '*'); } catch(e) {} }
+function request(method, params){
+  return new Promise(function(res, rej){
+    var id = nextId++; pending[id] = {res:res, rej:rej};
+    send({jsonrpc:'2.0', id:id, method:method, params:params || {}});
+    setTimeout(function(){ if(pending[id]){ delete pending[id]; rej(new Error('timeout')); } }, 40000);
+  });
+}
+function notify(method, params){ send({jsonrpc:'2.0', method:method, params:params || {}}); }
+window.addEventListener('message', function(e){
+  if(e.source !== parent) return;
+  var m = e.data; if(!m || m.jsonrpc !== '2.0') return;
+  if(m.method === undefined && m.id !== undefined){
+    var p = pending[m.id]; if(!p) return; delete pending[m.id];
+    if(m.error) p.rej(new Error(m.error.message || 'error')); else p.res(m.result);
+    return;
+  }
+  if(m.method === 'ui/notifications/tool-result'){ gotResult(m.params || {}); }
+  else if(m.method === 'ui/notifications/host-context-changed'){ applyContext(m.params || {}); }
+  else if(m.method === 'ui/resource-teardown' && m.id !== undefined){ send({jsonrpc:'2.0', id:m.id, result:{}}); }
+  else if(m.method === 'ping' && m.id !== undefined){ send({jsonrpc:'2.0', id:m.id, result:{}}); }
+});
+
+function applyContext(c){
+  if(c.theme) state.host.theme = c.theme;
+  if(c.displayMode) state.host.mode = c.displayMode;
+  if(c.containerDimensions){ state.host.w = c.containerDimensions.width || c.containerDimensions.maxWidth || 0; state.host.h = c.containerDimensions.height || c.containerDimensions.maxHeight || 0; }
+  var theme = state.host.theme || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+  var w = state.host.w || window.innerWidth;
+  state.compact = state.host.mode === 'inline' || w <= 560;
+  document.documentElement.classList.toggle('compact', state.compact);
+  $('#app').classList.toggle('compact', state.compact);
+  render();
+}
+
+function gotResult(r){
+  if(r.isError){ state.err = textOf(r) || 'Something went wrong.'; render(); return; }
+  if(r.structuredContent) setPres(r.structuredContent);
+}
+function textOf(r){ return r && r.content && r.content[0] && r.content[0].text || ''; }
+
+function callTool(name, args){
+  if(state.busy) return Promise.resolve(null);
+  state.busy = true; state.err = ''; syncBusy();
+  return request('tools/call', {name:name, arguments:withUtility(name, args)}).then(function(r){
+    state.busy = false;
+    if(r && r.isError){ state.err = textOf(r) || 'Something went wrong.'; render(); }
+    else if(r && r.structuredContent){ setPres(r.structuredContent); }
+    return r;
+  }).catch(function(){ state.busy = false; state.err = 'I lost the connection. Try again in a moment.'; render(); return null; });
+}
+function callSeq(list){
+  var i = 0;
+  function step(){
+    if(i >= list.length) return Promise.resolve();
+    var c = list[i++];
+    return callTool(c[0], c[1]).then(function(){ return step(); });
+  }
+  return step();
+}
+function openLink(url){
+  return request('ui/open-link', {url:url}).catch(function(){ state.err = 'I could not open the link here. Ask me to read it out.'; render(); });
+}
+
+/* ------------------------------------------------------------------ presentation state */
+function setPres(p){
+  if(p && p.kind === 'hunt'){ state.nodes = p.nodes; }
+  UTIL = (p && p.utility) || 'water';
+  state.last = state.pres; state.pres = p; state.err = '';
+  render(); schedulePoll();
+}
+var pollTimer = null;
+function schedulePoll(){
+  if(pollTimer){ clearTimeout(pollTimer); pollTimer = null; }
+  var p = state.pres;
+  function live(x){ return x && (((x.kind === 'hunt' || x.kind === 'fill') && x.status === 'active') || (x.kind === 'mode' && x.status === 'verifying')); }
+  if(!live(p)) return;
+  pollTimer = setTimeout(function(){
+    pollTimer = null;
+    var q = state.pres;
+    if(!live(q)) return;
+    if(state.busy){ schedulePoll(); return; }
+    var call = q.kind === 'fill' ? {name:'fill_status', arguments:{fill_id:q.fill_id}} :
+               q.kind === 'mode' ? {name:'house_mode', arguments:{}} : {name:'hunt_status', arguments:withUtility('hunt_status', {hunt_id:q.hunt_id})};
+    request('tools/call', call).then(function(r){
+      if(state.busy){ schedulePoll(); return; }
+      if(r && r.structuredContent && state.pres === q){ setPres(r.structuredContent); } else schedulePoll();
+    }).catch(function(){ schedulePoll(); });
+  }, 1500);
+}
+
+/* ------------------------------------------------------------------ view models */
+function nodeById(id){ var ns = state.nodes || []; for(var i = 0; i < ns.length; i++) if(ns[i].id === id) return ns[i]; return null; }
+function labelOf(id){ var n = nodeById(id); return n ? n.label : id; }
+
+function valveRows(nodes, p){
+  var kids = {}, order = [];
+  nodes.forEach(function(n){ var par = n.parent || 'house'; (kids[par] = kids[par] || []).push(n); });
+  var a = (p && p.action) || {}, next = (a.close && a.close[0]) || (a.open && a.open[0]) || null;
+  var auto = p && p.mode === 'auto';
+  var active = p && p.status === 'active';
+  var out = '';
+  (function walk(par, d){
+    (kids[par] || []).forEach(function(n){
+      var pills = '';
+      var isNext = active && a.kind !== 'wait' && n.id === next && !(auto && n.actuated);
+      if(isNext) pills += '<span class="pill next">Next</span>';
+      if(n.state === 'closed') pills += '<span class="pill">' + (auto && n.actuated && !n.latched ? 'Closed by Alexa' : 'Closed') + '</span>';
+      if(n.latched) pills += '<span class="pill warn">Kept closed</span>';
+      if(n.offered) pills += '<span class="pill warn">Held &middot; your call</span>';
+      if(n.verdict === 'confirmed') pills += '<span class="pill ok">&#10003; Found</span>';
+      else if(n.verdict === 'ambiguous' || n.verdict === 'inconsistent') pills += '<span class="pill warn">Unsure</span>';
+      else if(n.verdict === 'not_source' && !active) pills += '<span class="pill">Clear</span>';
+      if(auto && !n.actuated && !n.latched) pills += '<span class="pill">By hand</span>';
+      var reopen = '';
+      if(n.latched && !active) reopen = '<button class="btn small" data-act="reopen:' + esc(n.id) + '">Turn it on</button>';
+      out += '<div class="valve d' + Math.min(d, 2) + (isNext ? ' next' : '') + '"><span class="name">' + esc(n.label) + '</span>' + pills + reopen +
+             (isNext && n.how ? '<span class="how">' + esc(n.how) + '</span>' : '') + '</div>';
+      walk(n.id, d + 1);
+    });
+  })('house', 0);
+  return '<h2 class="kicker">Your valves</h2><div class="valves">' + out + '</div>';
+}
+
+function sparkline(p, wpx){
+  var t = p.trace; if(!t || !t.points || !t.points.length) return '';
+  var W = Math.max(240, Math.floor(wpx || 360)), H = 100, L = 22, B = 18, T = 14, R = 6, span = t.span_s || 60;
+  var ymax = 3; t.points.forEach(function(q){ if(q[2] * 1.15 > ymax) ymax = q[2] * 1.15; });
+  var X = function(s){ return L + (s + span) / span * (W - L - R); };
+  var xs = [], groups = [];
+  (t.marks || []).forEach(function(m){
+    var x = X(m.t); if(x < L || x > W) return;
+    xs.push(x);
+    var g = groups[groups.length - 1];
+    if(g && x - g.x < 70) g.n++; else groups.push({x:x, n:1, label:m.label});       // marks closer than 70 px share one label ("... +2")
+  });
+  // Labels go in rows above the plot, each in the first row where it clears the label before it, so no two ever overlap and
+  // none crosses the flow line; a label with no room left keeps its dashed line and loses its words.
+  var rowEnd = [], placed = [];
+  groups.forEach(function(g){
+    var txt = g.label + (g.n > 1 ? ' +' + (g.n - 1) : ''), w = txt.length * 5.8, right = g.x + 3 + w > W - R;   // ~5.8 px a character at 10 px
+    var x0 = right ? g.x - 3 - w : g.x + 3, x1 = right ? g.x - 3 : g.x + 3 + w, r = 0;
+    while(r < rowEnd.length && rowEnd[r] > x0 - 6) r++;
+    if(r > 2) return;
+    rowEnd[r] = x1; placed.push({g:g, txt:txt, right:right, r:r});
+  });
+  if(rowEnd.length) T = 11 * rowEnd.length + 6;
+  var Y = function(v){ return H - B - v / ymax * (H - B - T); };
+  var d = '';
+  t.points.forEach(function(q, i){ var x0 = Math.max(L, X(q[0])), x1 = Math.max(L, X(q[1])); d += (i ? ' L' : 'M') + x0.toFixed(1) + ',' + Y(q[2]).toFixed(1) + ' L' + x1.toFixed(1) + ',' + Y(q[2]).toFixed(1); });
+  var marks = '';
+  xs.forEach(function(x){ marks += '<line x1="' + x.toFixed(1) + '" x2="' + x.toFixed(1) + '" y1="' + (T - 4) + '" y2="' + (H - B) + '" stroke="currentColor" stroke-opacity=".55" stroke-dasharray="3 3"/>'; });
+  placed.forEach(function(p){
+    marks += '<text x="' + (p.right ? p.g.x - 3 : p.g.x + 3).toFixed(1) + '" y="' + (10 + p.r * 11) + '" font-size="10"' + (p.right ? ' text-anchor="end"' : '') + ' fill="currentColor">' + esc(p.txt) + '</text>';
+  });
+  var fy = Y(t.floor_lpm || 1);
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Flow in litres per minute, last ' + Math.round(span) + ' seconds" style="color:var(--fg2)">' +
+    '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + fy.toFixed(1) + '" y2="' + fy.toFixed(1) + '" stroke="var(--floor)" stroke-dasharray="4 3"/>' +
+    '<path d="' + d + '" fill="none" stroke="var(--line-flow)" stroke-width="2.5"/>' + marks +
+    '<text x="2" y="' + (T + 3) + '" font-size="10" fill="currentColor">' + Math.round(ymax) + '</text><text x="2" y="' + (H - B) + '" font-size="10" fill="currentColor">0</text>' +
+    '<text x="' + (W - R) + '" y="' + (H - 4) + '" font-size="10" text-anchor="end" fill="currentColor">L/min &#183; last ' + Math.round(span) + ' s</text></svg>';
+}
+
+function nightsChart(p){
+  var ns = (p.night && p.night.nights) || [], floor = p.floor_lpm || 1;
+  var ymax = Math.max(3, floor * 2); ns.forEach(function(n){ if(n.min_lpm != null && n.min_lpm * 1.2 > ymax) ymax = n.min_lpm * 1.2; });
+  var W = 300, H = 190, L = 6, B = 16, T = 18, n = Math.max(ns.length, 1), bw = (W - L - 6) / n;
+  var Y = function(v){ return H - B - v / ymax * (H - B - T); };
+  var bars = '', pw = UTIL === 'power', usual = (p.night && p.night.usual_w) || 0, prev = null;
+  ns.forEach(function(x, i){
+    var bx = L + i * bw + bw * .12, w = bw * .76;
+    if(x.min_lpm == null){ bars += '<line x1="' + bx.toFixed(1) + '" x2="' + (bx + w).toFixed(1) + '" y1="' + (H - B) + '" y2="' + (H - B) + '" stroke="var(--bar-low)" stroke-dasharray="3 2"/>'; return; }
+    // water: a night is marked when anything at all ran above the sensor floor. Power always has a base: a night is marked when it ran
+    // clearly above the usual base, and a value is printed only where it changes.
+    var high = pw ? x.min_lpm > usual * 1.1 + floor : x.min_lpm >= floor, y = Y(Math.max(x.min_lpm, 0));
+    var said = pw ? (prev === null || Math.abs(x.min_lpm - prev) > floor) : high; prev = x.min_lpm;
+    bars += '<rect x="' + bx.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + Math.max(1, H - B - y).toFixed(1) + '" fill="' + (high ? 'var(--bar)' : 'var(--bar-low)') + '"/>';
+    if(said) bars += '<text x="' + (bx + w / 2).toFixed(1) + '" y="' + (y - 3).toFixed(1) + '" font-size="10" text-anchor="middle" fill="currentColor">' + (pw ? Math.round(x.min_lpm) : fmt(x.min_lpm)) + '</text>';
+  });
+  if(pw) return '<h2 class="kicker">Lowest draw each night (W)</h2><div class="chart" style="margin-top:0"><svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Lowest overnight draw for each of the last ' + ns.length + ' nights, in watts" style="color:var(--fg2)">' + bars + '</svg></div>';
+  return '<h2 class="kicker">Quietest flow each night</h2><div class="chart" style="margin-top:0"><svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Quietest overnight flow for each of the last ' + ns.length + ' nights" style="color:var(--fg2)">' +
+    '<line x1="' + L + '" x2="' + (W - 6) + '" y1="' + Y(floor).toFixed(1) + '" y2="' + Y(floor).toFixed(1) + '" stroke="var(--floor)" stroke-dasharray="4 3"/>' +
+    '<text x="' + (L + 4) + '" y="' + (Y(floor) - 4).toFixed(1) + '" font-size="10" fill="currentColor">Sensor floor ' + fmt(floor) + '</text>' + bars + '</svg></div>';
+}
+
+function rulesCard(p){
+  return '<h2 class="kicker">What I will and won’t do</h2><ul class="rules">' +
+    '<li>I close your pipes one at a time and measure what the sensor sees.</li>' +
+    '<li>I never touch your main safety valve.</li>' +
+    '<li>Your pipe controller puts a pipe back on after 2 minutes unless I keep renewing it.</li>' +
+    '<li>Say “stop” at any moment and everything goes back on.</li></ul>';
+}
+
+function pipeTiles(p){
+  var rows = p.pipes || [], out = '';
+  rows.forEach(function(r){
+    var pills = '', btn = '';
+    if(!r.actuated){ pills = '<span class="pill">' + (r.protect ? 'Never switched' : 'Hand valve') + '</span>'; }
+    else {
+      var off = r.position === 'closed';
+      pills = '<span class="pill ' + (off ? 'warn' : 'ok') + '">' + (r.position === 'moving' ? 'Moving' : off ? 'Off' : r.position === 'open' ? 'On' : 'Unknown') + '</span>';
+      if(r.latched) pills += '<span class="pill warn">Kept closed</span>';
+      if(r.offered) pills += '<span class="pill warn">Held &middot; ' + Math.round(r.offer_left_s || 0) + ' s left</span>';
+      btn = '<button class="btn small" data-act="toggle:' + esc(r.id) + ':' + (off ? 'on' : 'off') + '">' + (off ? 'Turn on' : 'Turn off') + '</button>';
+    }
+    out += '<div class="tile"><div class="nm"><b>' + esc(r.label) + '</b>' + pills + '</div>' + btn + '</div>';
+  });
+  return '<div class="tiles">' + out + '</div>';
+}
+
+/* returns {kicker, bullets[], leftExtra, side, buttons[], hint, single, chart, auto, center} */
+function build(p){
+  var v = {kicker:'Leak Hunt', bullets:[], side:'', buttons:[], hint:'', single:false, chart:'', tiles:'', center:false, auto:false};
+  var K = p.kind;
+  if(K === 'status'){
+    v.kicker = 'Water check'; v.side = nightsChart(p);
+    v.buttons.push({id:'find', label: p.active_hunt ? 'Continue the hunt' : 'Find the leak', cls:'primary'});
+    if(p.control_available) v.buttons.push({id:'pipes', label:'My pipes'});
+    v.hint = 'You can also ask me to find it.';
+  } else if(K === 'choose_mode'){
+    v.kicker = 'Two ways to find it'; v.side = rulesCard(p);
+    v.buttons.push({id:'mode:auto', label:'Run it for me', cls:'primary'}, {id:'mode:guided', label:'Guide me'});
+    v.hint = 'Or just tell me which.';
+  } else if(K === 'needs_consent'){
+    v.kicker = 'Your OK first'; v.side = rulesCard(p);
+    v.buttons.push({id:'consent', label:'Yes, run the test', cls:'primary'}, {id:'mode:guided', label:'No, guide me'});
+    v.hint = 'Say “stop” any time and I put everything back.';
+  } else if(K === 'hunt'){ return huntView(p, v); }
+  else if(K === 'fill'){ return fillView(p, v); }
+  else if(K === 'mode'){ return modeView(p, v); }
+  else if(K === 'pipes'){
+    v.kicker = 'Your pipes'; v.single = true; v.tiles = pipeTiles(p);
+    if(p.control_available) v.buttons.push({id:'find', label:'Find a leak'});
+    if(p.control_available && UTIL !== 'power') v.buttons.push({id:'modeset:sleep', label:'Sleep mode'}, {id:'modeset:away', label:'Away mode'});   // modes are for pipes
+    var first = (p.pipes || []).filter(function(r){ return r.actuated; })[0];
+    v.hint = first ? 'Say “turn off ' + first.label + '”.' : '';
+  } else if(K === 'choose_pipe'){
+    v.kicker = 'Which one?'; v.single = true; v.center = true;
+    (p.options || []).forEach(function(o){ v.buttons.push({id:'pipe:' + o.id, label:o.label}); });
+    if((p.options || []).length >= 2) v.buttons.push({id:'all', label:(p.options.length === 2 ? 'Both' : 'All of them'), cls:'primary'});
+    v.buttons.push({id:'pipes', label:'Cancel'});
+  } else if(K === 'needs_confirm'){
+    v.kicker = 'Please confirm'; v.single = true; v.center = true;
+    var yes = {heard:'Yes, that one', latched:'Yes, turn it on', hunt_active:'Yes, stop the hunt', many_pipes:'Yes, all of them'}[p.reason] || 'Yes';
+    v.buttons.push({id:'confirm', label:yes, cls:'primary'}, {id:'pipes', label:p.reason === 'latched' ? 'Keep it closed' : 'No'});
+  } else if(K === 'evidence'){
+    v.kicker = 'Evidence'; v.side = state.nodes ? valveRows(state.nodes, {status:'done', action:{}}) : '';
+    v.single = !v.side;
+    (p.summary || []).forEach(function(s){ v.bullets.push(s); });
+    if(p.sha256) v.bullets.push('Checksum ' + p.sha256.slice(0, 16) + '…');
+    if(p.url) v.buttons.push({id:'link', label:'Open the write-up', cls:'primary'});
+    v.buttons.push({id:'new', label:'Start a new hunt'});
+  } else if(K === 'stopped'){
+    v.kicker = 'Leak hunt'; v.single = true; v.center = true;
+    v.buttons.push({id:'find', label:'Find the leak', cls:'primary'});
+  } else if(K === 'error'){
+    v.kicker = 'Something went wrong'; v.single = true; v.center = true;
+    v.buttons.push({id:'retry', label:'Check water status', cls:'primary'});
+  } else { v.single = true; v.center = true; }
+  return v;
+}
+
+function modeView(p, v){
+  v.single = true; v.tiles = pipeTiles(p);
+  if(p.status === 'needs_confirm'){
+    v.kicker = p.label + '?';
+    v.buttons.push({id:'modeyes', label:'Yes, turn ' + ((p.to_close || []).length === 1 ? 'it' : 'them') + ' off', cls:'primary'}, {id:'pipes', label:'No'});
+  } else if(p.status === 'off'){
+    v.kicker = 'House modes';
+    v.buttons.push({id:'modeset:sleep', label:'Sleep mode', cls:'primary'}, {id:'modeset:away', label:'Away mode'}, {id:'pipes', label:'My pipes'});
+  } else {
+    v.kicker = p.status === 'verifying' ? p.label + ': checking the meter' : p.label;
+    v.bullets.push('Your pipe controller keeps these pipes off until you say \u201c' + p.back_label + '\u201d, even if it stops hearing from me.');
+    if(p.still_flowing) v.bullets.push('Still moving: ' + fmt(p.verified_lpm) + ' L/min.');
+    else if(p.verified_lpm != null) v.bullets.push('Checked: nothing above the sensor floor is moving.');
+    v.buttons.push({id:'modehome', label:p.back_label, cls:'primary'}, {id:'pipes', label:'My pipes'});
+  }
+  return v;
+}
+
+function fillView(p, v){
+  var active = p.status === 'active', pct = Math.max(0, Math.min(100, (p.delivered_l || 0) / (p.target_l || 1) * 100));
+  var label = p.label || 'tap';
+  if(active) v.kicker = p.paused ? 'Paused: no meter data' : p.phase === 'settling' ? 'Finishing the count' : p.phase === 'recheck' ? 'Re-checking the count' : (p.vessel ? 'Filling the ' : 'Running the ') + label;
+  else v.kicker = p.outcome === 'done' ? (p.vessel ? 'Filled' : 'Done') : 'Fill stopped';
+  var g = '<h2 class="kicker">' + esc(label) + '</h2><div class="gauge">' +
+          '<div class="big">' + Math.round(p.delivered_l || 0) + ' <small>of ' + Math.round(p.target_l || 0) + ' litres</small></div>' +
+          '<div class="bar" role="img" aria-label="' + Math.round(pct) + ' percent filled"><i style="width:' + pct.toFixed(1) + '%"></i></div><dl class="facts">';
+  if(p.rate_lpm) g += '<dt>Filling at</dt><dd>' + fmt(p.rate_lpm) + ' L/min</dd>';
+  if(active && p.eta_s != null) g += '<dt>Time to go</dt><dd>about ' + Math.max(1, Math.round(p.eta_s)) + ' s</dd>';
+  if(p.baseline_lpm >= 1) g += '<dt>Moving elsewhere</dt><dd>' + fmt(p.baseline_lpm) + ' L/min, left out of the count</dd>';
+  g += '</dl>';
+  if(active && p.lease_left_s != null) g += '<div class="timer">Pipe controller closes it by itself in <b>' + Math.ceil(p.lease_left_s) + ' s</b> unless I extend it</div>';
+  g += '</div>';
+  v.side = g;
+  if(active){
+    v.bullets.push('The controller’s own timer is the fill timer: if I lose contact, the ' + label + ' still closes at about the amount.');
+    v.bullets.push('If the water use in the house changes in the middle, I stop rather than give you more than you asked for.');
+    v.buttons.push({id:'stopfill', label:'Stop filling', cls:'danger'});
+  } else {
+    if(p.offer_hunt) v.buttons.push({id:'new', label:'Find where it’s going', cls:'primary'});
+    v.buttons.push({id:'retry', label:'Check water status', cls: p.offer_hunt ? '' : 'primary'});
+  }
+  if(p.trace && p.trace.points && p.trace.points.length) v.chart = 'trace';
+  return v;
+}
+
+function huntView(p, v){
+  var a = p.action || {}, auto = p.mode === 'auto', active = p.status === 'active', ai = p.auto || null;
+  v.auto = auto && active;
+  v.side = valveRows(p.nodes || [], p);
+  if(active){
+    var hand = ai ? ai.needs_you : true;
+    if(auto){
+      v.kicker = ai && ai.paused ? 'Paused: no sensor data' : a.kind === 'wait' ? 'Alexa is measuring' : 'Alexa is running the test';
+      if(ai && ai.paused) v.bullets.push('No sensor data for ' + Math.round(ai.paused.data_age_s || 0) + ' s. I will not switch any pipe until it is back; if it stays out I stop in ' + Math.round(ai.paused.stops_in_s) + ' s and turn everything back on.');
+      if(ai && ai.closed_by_alexa && ai.closed_by_alexa.length) v.bullets.push('Closed by me: ' + ai.closed_by_alexa.map(function(x){ return x.label; }).join(', '));
+      v.bullets.push('If I lose contact, your pipe controller puts every pipe back on by itself within 2 minutes.');
+      if(ai) v.bullets.push('Valve moves so far: ' + ai.commands + ' (I allow myself ' + ai.max_commands + ').');
+    } else {
+      v.kicker = (p.steps_done === 0 && a.kind === 'quiet') ? 'Get ready' : a.kind === 'wait' ? 'Measuring' : p.phase === 'verifying' ? 'Checking' : 'Searching';
+      var cl = (p.claims || []).filter(function(c){ return c.level === 'info' || c.level === 'warning'; }).slice(-1);
+      cl.forEach(function(c){ v.bullets.push(c.text); });
+      if(a.kind === 'wait' && a.eta_s) v.bullets.push('About ' + Math.max(1, Math.round(a.eta_s)) + ' seconds to go.');
+    }
+    if(!auto || hand){
+      var lab = {quiet:'Everything is off', close:'I closed it', open:'I opened it', set_state:'Done'}[a.kind];
+      if(lab) v.buttons.push({id:'step', label:lab, cls:'primary'});
+      if(p.steps_done > 0 && !auto) v.buttons.push({id:'undo', label:'Undo last step'});
+    }
+    if(auto) v.buttons.push({id:'stop', label:'Stop the test', cls: hand ? '' : 'danger'});
+    else if(v.buttons.length) v.hint = 'You can also say it out loud.';
+    if(auto && hand) v.hint = 'You can also say it out loud.';
+  } else if(p.status === 'done'){
+    v.kicker = 'Result';
+    var offer = (ai && ai.isolation_offer) || [];
+    if(offer.length){
+      var o = offer[0];
+      v.kicker = 'Keep it closed?';
+      v.bullets.push('Held off by me for now (' + offer.map(function(x){ return x.label; }).join(', ') + '). Your pipe controller turns it back on by itself in ' + Math.round(o.expires_in_s) + ' s unless you keep it closed.');
+      v.buttons.push({id:'keep:' + o.id, label:'Keep it closed', cls:'primary'}, {id:'release:' + o.id, label:'Turn it back on'});
+    }
+    if(ai && ai.not_restored && ai.not_restored.length) v.bullets.push('Not confirmed back on: ' + ai.not_restored.map(function(x){ return x.label; }).join(', ') + '. The controller reopens it by itself within ' + Math.round(Math.max.apply(null, ai.not_restored.map(function(x){ return x.reopens_within_s; }))) + ' s.');
+    if(p.evidence_available) v.buttons.push({id:'evidence', label:'Evidence for my plumber', cls:'primary'});
+    v.buttons.push({id:'new', label:'Start a new hunt'});
+  } else {
+    v.kicker = p.status === 'aborted' ? 'Stopped for safety' : 'Stopped';
+    if(ai && ai.not_restored && ai.not_restored.length) v.bullets.push('Not confirmed back on: ' + ai.not_restored.map(function(x){ return x.label; }).join(', ') + '. The controller reopens it by itself within ' + Math.round(Math.max.apply(null, ai.not_restored.map(function(x){ return x.reopens_within_s; }))) + ' s.');
+    v.buttons.push({id:'new', label:'Start a new hunt', cls:'primary'});
+    if(auto) v.buttons.push({id:'pipes', label:'My pipes'});
+  }
+  v.chart = 'trace';
+  return v;
+}
+
+/* ------------------------------------------------------------------ rendering */
+function render(){
+  var p = state.pres;
+  if(!p){ return; }
+  var v = build(p);
+  var sim = $('#sim');
+  if(p.simulated){ sim.hidden = false; sim.textContent = 'Simulated house' + (p.time_scale > 1 ? ' · ×' + p.time_scale + ' time-lapse' : ''); } else sim.hidden = true;
+  $('#mode').hidden = !v.auto;
+  var fl = $('#flow'), ft = p.kind === 'hunt' ? p.flow_text : (p.kind === 'status' && p.flow_now_lpm != null ? fmt(p.flow_now_lpm) + ' litres per minute' : null);
+  if(ft){ fl.hidden = false; fl.textContent = 'Flow ' + String(ft).replace(' litres per minute', ' L/min').replace(/ litres? per minute/, ' L/min'); } else fl.hidden = true;
+  var main = $('#main'); main.className = v.single ? 'single' : '';
+  var cm = $('#card-main'), cs = $('#card-side');
+  var sayTxt = p.speech || '';
+  var structure = [v.kicker, state.err, v.bullets.length, v.tiles ? 1 : 0, v.chart ? 1 : 0, v.center ? 1 : 0].join('|');
+  if(cm.getAttribute('data-sig') !== structure){            // rebuild only when the shape changes, so the live region and focus survive polling
+    var html = '<h2 class="kicker">' + esc(v.kicker) + '</h2>' + (state.err ? '<p class="err" role="alert">' + esc(state.err) + '</p>' : '') +
+               '<p class="say" id="say" aria-live="polite" aria-atomic="true"></p>';
+    if(v.bullets.length) html += '<ul class="know">' + v.bullets.map(function(){ return '<li></li>'; }).join('') + '</ul>';
+    if(v.tiles) html += '<div id="tiles-slot"></div>';
+    if(v.chart) html += '<div class="chart" id="chart"></div>';
+    cm.className = 'card' + (v.center ? ' center' : '');
+    cm.innerHTML = html; cm.setAttribute('data-sig', structure);
+  }
+  var say = $('#say'); if(say.textContent !== sayTxt) say.textContent = sayTxt;
+  Array.prototype.forEach.call(cm.querySelectorAll('.know li'), function(li, i){ if(li.textContent !== v.bullets[i]) li.textContent = v.bullets[i]; });
+  var slot = $('#tiles-slot'); if(slot && slot.getAttribute('data-h') !== v.tiles){ slot.innerHTML = v.tiles; slot.setAttribute('data-h', v.tiles); }
+  if(v.chart){ $('#chart').innerHTML = sparkline(p, (cm.clientWidth || 360) - 34); }
+  var sideHtml = v.single ? '' : v.side;
+  if(cs.getAttribute('data-h') !== sideHtml){ cs.innerHTML = sideHtml; cs.setAttribute('data-h', sideHtml); }
+  cs.hidden = v.single;
+  renderActions(v);
+  $('header h1').textContent = UTIL === 'power' ? 'Power Hunt' : 'Leak Hunt';
+  document.title = UTIL === 'power' ? 'Power Hunt' : 'Leak Hunt';
+  if(UTIL === 'power') powerWords($('#app'));
+  fit();
+  reportSize();
+}
+
+function renderActions(v){
+  var box = $('#actions');
+  var sig = JSON.stringify(v.buttons.map(function(b){ return [b.id, b.label, b.cls || '']; })) + v.hint;
+  btns = v.buttons;
+  if(sig !== btnSig){
+    btnSig = sig;
+    var had = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute('data-act');
+    box.innerHTML = v.buttons.map(function(b){ return '<button class="btn ' + (b.cls || '') + '" data-act="' + esc(b.id) + '">' + esc(b.label) + '</button>'; }).join('') +
+                    (v.hint ? '<p class="hint">' + esc(v.hint) + '</p>' : '');
+    if(had){ var again = box.querySelector('[data-act="' + had.replace(/"/g, '') + '"]'); if(again) again.focus(); }
+  }
+  syncBusy();
+}
+function syncBusy(){
+  Array.prototype.forEach.call(document.querySelectorAll('button[data-act]'), function(b){ b.disabled = state.busy; });
+}
+
+/* shrink the big text until the card has no hidden overflow; drop the chart, then the bullets, as a last resort */
+function fit(){
+  var card = $('#card-main'), say = $('#say');
+  if(!say) return;
+  var side = $('#card-side');
+  card.classList.remove('nochart', 'nobullets');
+  if(state.compact){ say.style.fontSize = ''; return; }
+  var over = function(c){ return c.scrollHeight - c.clientHeight > 1; };
+  var px = 30; say.style.fontSize = px + 'px';
+  var tiles = card.querySelector('.tiles');
+  if(tiles){ var minpx = 15; while(over(card) && px > minpx){ px -= 1; say.style.fontSize = px + 'px'; } return; }
+  while(over(card) && px > 18){ px -= 1; say.style.fontSize = px + 'px'; }
+  if(over(card)){ card.classList.add('nochart'); px = 24; say.style.fontSize = px + 'px'; while(over(card) && px > 15){ px -= 1; say.style.fontSize = px + 'px'; } }
+  if(over(card)){ card.classList.add('nobullets'); px = 24; say.style.fontSize = px + 'px'; while(over(card) && px > 14){ px -= 1; say.style.fontSize = px + 'px'; } }
+  if(side && !side.hidden){ var vs = side.querySelector('.valves'); if(vs){ vs.style.maxHeight = Math.max(80, side.clientHeight - 56) + 'px'; } }
+}
+
+var lastH = 0;
+function reportSize(){
+  if(!state.ready) return;
+  var h = state.compact ? Math.ceil($('#app').getBoundingClientRect().height) : Math.ceil(document.documentElement.scrollHeight);
+  var w = Math.ceil(document.documentElement.scrollWidth);
+  if(Math.abs(h - lastH) < 2) return; lastH = h;
+  notify('ui/notifications/size-changed', {width:w, height:h});
+}
+
+/* ------------------------------------------------------------------ actions */
+function reportNodes(list, kind){
+  return list.map(function(id){ return ['report_step', {kind:kind, valve:labelOf(id), hunt_id:state.pres.hunt_id}]; });
+}
+document.getElementById('actions').addEventListener('click', onClick);
+document.getElementById('card-main').addEventListener('click', onClick);
+document.getElementById('card-side').addEventListener('click', onClick);
+
+function onClick(e){
+  var el = e.target.closest ? e.target.closest('button[data-act]') : null;
+  if(!el || state.busy) return;
+  var act = el.getAttribute('data-act'), p = state.pres || {}, a = p.action || {};
+  var parts = act.split(':');
+  switch(parts[0]){
+    case 'find': callTool('start_leak_hunt', {}); break;
+    case 'new': callTool('start_leak_hunt', {resume:false}); break;
+    case 'mode': callTool('start_leak_hunt', {mode:parts[1], resume:false}); break;
+    case 'consent': callTool('start_leak_hunt', {mode:'auto', consent:true, resume:false}); break;
+    case 'pipes': callTool('list_pipes', {}); break;
+    case 'retry': callTool('water_status', {}); break;
+    case 'stop': callTool('stop_leak_hunt', {}); break;
+    case 'stopfill': callTool('stop_filling', {}); break;
+    case 'modeset': callTool('house_mode', {mode:parts[1]}); break;
+    case 'modeyes': callTool('house_mode', {mode:p.mode, confirm:true}); break;
+    case 'modehome': callTool('house_mode', {mode:'home'}); break;
+    case 'evidence': callTool('evidence_packet', {hunt_id:p.hunt_id}); break;
+    case 'link': if(p.url) openLink(p.url); break;
+    case 'undo': callTool('report_step', {kind:'undo', hunt_id:p.hunt_id}); break;
+    case 'step':
+      if(a.kind === 'quiet') callTool('report_step', {kind:'quiet', hunt_id:p.hunt_id});
+      else if(a.kind === 'close') callSeq(reportNodes(a.close || [], 'close').slice(0, 1));
+      else if(a.kind === 'open') callSeq(reportNodes(a.open || [], 'open').slice(0, 1));
+      else if(a.kind === 'set_state') callSeq(reportNodes(a.close || [], 'close').concat(reportNodes(a.open || [], 'open')));
+      break;
+    case 'toggle': callTool('set_pipe', {pipe:labelFromPipes(parts[1]), state:parts[2]}); break;
+    case 'reopen': callTool('set_pipe', {pipe:labelOf(parts[1]), state:'on'}); break;
+    case 'keep': callTool('set_pipe', {pipe:labelOf(parts[1]), state:'off'}); break;
+    case 'release': callTool('set_pipe', {pipe:labelOf(parts[1]), state:'on'}); break;
+    case 'pipe': callTool('set_pipe', {pipe:labelFromOptions(parts[1]), state:p.wanted}); break;
+    case 'all': callTool('set_pipe', {pipe:(p.retry && p.retry.pipe) || '', state:p.wanted, all_in_room:true}); break;
+    case 'confirm': callTool('set_pipe', {pipe:p.retry.pipe, state:p.retry.state, all_in_room:!!p.retry.all_in_room, confirm:true}); break;
+  }
+}
+function labelFromPipes(id){ var rs = (state.pres && state.pres.pipes) || []; for(var i = 0; i < rs.length; i++) if(rs[i].id === id) return rs[i].label; return id; }
+function labelFromOptions(id){ var os = (state.pres && state.pres.options) || []; for(var i = 0; i < os.length; i++) if(os[i].id === id) return os[i].label; return id; }
+
+/* ------------------------------------------------------------------ start */
+window.addEventListener('resize', function(){ if(state.pres){ var w = state.host.w || window.innerWidth; var c = state.host.mode === 'inline' || w <= 560; if(c !== state.compact){ applyContext({}); } else { fit(); reportSize(); } } });
+applyContext({});
+request('ui/initialize', {protocolVersion:'2025-11-21', appInfo:{name:'Leak Hunt', version:'0.2.0'}, appCapabilities:{}}).then(function(r){
+  applyContext((r && r.hostContext) || {});
+  state.ready = true;
+  notify('ui/notifications/initialized', {});
+  setTimeout(function(){ if(!state.pres && !state.busy){ callTool('water_status', {}); } }, 5000);
+}).catch(function(){
+  state.ready = false;
+  $('#say') || ($('#card-main').innerHTML = '<p class="say" id="say" aria-live="polite">Ask Alexa about your water, for example “is there a leak?”</p>');
+});
+$('#card-main').innerHTML = '<h2 class="kicker">Leak Hunt</h2><p class="say" id="say" aria-live="polite">Checking your water…</p>';
+$('#card-side').hidden = true;
+})();
+</script>
+</body>
+</html>

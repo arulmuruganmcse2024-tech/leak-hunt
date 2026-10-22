@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Leak Hunt dev host</title>
+<style>
+body{margin:0;background:#0b0e12;color:#ddd;font:14px system-ui}
+[hidden]{display:none !important}
+#bar{padding:6px 10px;display:flex;gap:12px;align-items:center;background:#161b22}
+#stage{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:16px;margin:12px auto;padding:0 12px}
+#framebox{position:relative;flex:0 0 auto}
+#frame{display:block;border:0;background:#fff;box-shadow:0 0 0 1px #333}
+#veil{position:absolute;inset:0;background:rgba(8,10,14,.86);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;color:#e6edf3}
+#veil b{font-size:30px;margin-bottom:8px} #veil span{font-size:16px;color:#aab4c0;max-width:520px;line-height:1.4}
+#wire{margin-left:auto;font:12px ui-monospace,monospace;color:#7ee787;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62%}
+#log{max-width:1280px;margin:0 auto;font:12px ui-monospace,monospace;white-space:pre-wrap;color:#8b949e}
+#ch{flex:1 1 440px;max-width:560px;min-width:340px;padding:10px 14px;background:#161b22;border:1px solid #30363d;border-radius:8px;box-sizing:border-box}
+#ch h2{margin:0 0 2px;font-size:16px} #ch h3{margin:0;font-size:14px} #ch p{margin:2px 0 6px;color:#9da7b3;font-size:13px;line-height:1.35}
+#ch .row{display:flex;flex-wrap:wrap;gap:5px;margin:5px 0;align-items:center}
+#ch button,#ch select,#ch input{font:inherit;font-size:13px;padding:3px 8px;border-radius:6px;border:1px solid #444c56;background:#21262d;color:#e6edf3;min-height:30px}
+#ch button:hover{background:#30363d} #ch button.go{background:#1f6feb;border-color:#1f6feb} #ch button.warn{background:#9e3b2d;border-color:#c0503f}
+#ch .flag{font-size:12px;color:#9da7b3}
+#ch #out{margin:2px 0 0;min-height:17px;color:#9da7b3;font-size:12.5px}
+#ctl{margin:6px 0;padding:6px 10px;border:1px solid #30363d;border-radius:8px;background:#0f141a}
+#ctl .tag{font-size:11px;color:#f0b429;border:1px solid #6b5313;border-radius:999px;padding:1px 7px;margin-left:6px}
+#pipes{list-style:none;margin:4px 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+#pipes li{padding:3px 8px;border:1px solid #30363d;border-radius:6px;font-size:12px;line-height:1.35;min-height:28px;box-sizing:border-box}
+#pipes li b{font-size:13px;color:#e6edf3;margin-right:6px}
+#pipes li.closed{border-color:#c28b00;background:#2a2108} #pipes li.closed b{color:#f0b429}
+#plugnote{font-size:12.5px;line-height:1.4;min-height:70px;color:#9da7b3}
+#plugnote .good{color:#56d364}
+#verdict{margin:6px 0 0;padding:6px 10px;border:1px solid #30363d;border-radius:8px;background:#0f141a;min-height:200px;box-sizing:border-box}
+#verdict h3{margin-bottom:4px}
+#verdict.empty{color:#7d8793}
+#verdict .vrow{display:grid;grid-template-columns:96px 1fr;gap:8px;padding:3px 0;border-top:1px solid #222a33;font-size:13.5px;line-height:1.35}
+#verdict .vrow .k{color:#9da7b3;font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding-top:2px}
+#verdict .vrow.good .v{color:#56d364} #verdict .vrow.bad .v{color:#ff7b72}
+#verdict .vsent{margin:4px 0 2px;color:#e6edf3;font-size:13.5px;line-height:1.4}
+#verdict .vfine{margin:2px 0 0;color:#8b949e;font-size:11.5px;line-height:1.35}
+</style></head><body>
+<div id="bar"><b>Dev host</b> <span>Emulates an MCP Apps host (sandboxed iframe, postMessage JSON-RPC). Not Alexa+.</span><span id="wire" title="Requests this page has sent to the Leak Hunt MCP server"></span></div>
+<div id="stage">
+<div id="framebox">
+<iframe id="frame" sandbox="allow-scripts" title="Leak Hunt app"></iframe>
+<div id="veil" hidden role="alert"><b>No answer from the add-on</b><span>Simulated outage: the add-on's heartbeat has stopped and this screen gets no reply, so nothing renews a lease.</span></div>
+</div>
+<aside id="ch" hidden aria-label="Try to fool it">
+  <h2>Try to fool it</h2>
+  <p>A leak is hidden in this simulated house. Run the hunt, throw things at it, then Reveal. Each tap click is one outside change. Nothing here is real water.</p>
+  <div class="row"><input id="seed" inputmode="numeric" placeholder="seed" size="7" aria-label="seed (optional)"><button id="new" class="go">New hidden round</button><button id="scripted" title="A tap that was already running stops in the middle of a measurement">Scripted: the tap stops mid-test</button></div>
+  <div id="round" class="flag"></div>
+  <div class="row" id="chaos">
+    <button data-a="ambient_on">Outside tap ON</button><button data-a="ambient_off">Outside tap OFF</button>
+    <button data-a="blackout_on">Sensor link: drop</button><button data-a="blackout_off">Sensor link: restore</button>
+    <button data-a="hub_down">Pipe controller: drop</button><button data-a="hub_up">Pipe controller: restore</button>
+    <button data-a="reboot_sensor">Reboot sensor</button>
+  </div>
+  <div class="row"><select id="jam" aria-label="pipe to jam"></select><button data-a="jam">Jam it open</button><button data-a="free">Free all pipes</button></div>
+  <section id="ctl" aria-label="Pipe controller (simulated)">
+    <h3>Pipe controller <span class="tag">simulated</span></h3>
+    <p id="ctlnote">The controller has its own timers. The add-on only asks it to hold a pipe closed, or a tap open, for a while.</p>
+    <ul id="pipes"></ul>
+    <div class="row"><button id="plug" class="warn">Pull the plug: kill the add-on</button><button id="plugback" hidden>Restart the add-on</button><span id="scale" class="flag"></span></div>
+    <div id="plugnote"></div>
+  </section>
+  <div class="row"><button id="reveal" class="go">Reveal</button><span id="flags" class="flag"></span></div>
+  <div id="out" role="status"></div>
+  <section id="verdict" class="empty" aria-label="Verdict"><h3>Verdict</h3><p>Run the hunt, then press Reveal: what was hidden, what Leak Hunt said, and what the simplest rule says on the same readings.</p></section>
+</aside>
+</div>
+<div id="log"></div>
+<script>
+(function(){
+var q = new URLSearchParams(location.search);
+var theme = q.get('theme') || 'light', mode = q.get('mode') || 'fullscreen';
+var W = +(q.get('w') || 768), H = +(q.get('h') || 480), first = q.get('tool') || 'water_status';
+var firstArgs = q.get('args') ? JSON.parse(q.get('args')) : {};
+var f = document.getElementById('frame'); f.style.width = W + 'px'; f.style.height = H + 'px';
+document.body.style.background = theme === 'dark' ? '#0b0e12' : '#e9ecf0';
+var sid = null, n = 0;
+var H0 = window.__host = {log:[], calls:[], links:[], sizes:[], results:[], ready:false, addonDown:false, refused:0, tools:[], wire:{}};
+function log(s){ H0.log.push(s); }
+var wireOrder = [], wireLast = {};
+function note(method, extra){                    // what this page has really sent to the server, shown in the top bar
+  if(!(method in H0.wire)){ wireOrder.push(method); H0.wire[method] = 0; }
+  H0.wire[method]++; if(extra) wireLast[method] = extra;
+  paintWire();
+}
+function paintWire(){
+  document.getElementById('wire').textContent = 'MCP client → /mcp (Streamable HTTP): ' + wireOrder.map(function(m){
+    return m + (wireLast[m] ? ' ' + wireLast[m] : '') + (H0.wire[m] > 1 ? ' ×' + H0.wire[m] : ''); }).join(' · ');
+}
+async function mcp(method, params, notif){
+  note(method, method === 'tools/call' && params ? params.name : '');
+  var body = notif ? {jsonrpc:'2.0', method:method, params:params||{}} : {jsonrpc:'2.0', id:++n, method:method, params:params||{}};
+  var h = {'Content-Type':'application/json', 'Accept':'application/json, text/event-stream', 'MCP-Protocol-Version':'2025-11-25'};
+  if(sid) h['Mcp-Session-Id'] = sid;
+  var r = await fetch('/mcp', {method:'POST', headers:h, body:JSON.stringify(body)});
+  var s = r.headers.get('mcp-session-id'); if(s) sid = s;
+  if(notif) return null;
+  return (await r.json());
+}
+function toApp(m){ f.contentWindow.postMessage(m, '*'); }
+window.addEventListener('message', async function(e){
+  if(e.source !== f.contentWindow) return;
+  var m = e.data; if(!m || m.jsonrpc !== '2.0') return;
+  log('app->host ' + (m.method || 'response') );
+  if(m.method === 'ui/initialize'){
+    toApp({jsonrpc:'2.0', id:m.id, result:{protocolVersion:'2025-11-21', hostInfo:{name:'devhost', version:'0'},
+      hostCapabilities:{serverTools:{}, openLinks:{}}, hostContext:{theme:theme, displayMode:mode, availableDisplayModes:['inline','fullscreen'],
+      containerDimensions:{width:W, height:H}, locale:'en-US', platform:'web'}}});
+  } else if(m.method === 'ui/notifications/initialized'){
+    var r = await mcp('tools/call', {name:first, arguments:firstArgs});
+    H0.calls.push({name:first, by:'host'}); H0.results.push(r.result.structuredContent);
+    toApp({jsonrpc:'2.0', method:'ui/notifications/tool-result', params:r.result});
+    H0.ready = true;
+  } else if(m.method === 'tools/call'){
+    if(H0.addonDown){            // the add-on is not running: a real host gets no reply from it, so the screen gets none either
+      H0.refused++;
+      toApp({jsonrpc:'2.0', id:m.id, error:{code:-32000, message:'The add-on did not answer.'}});
+      return;
+    }
+    H0.calls.push({name:m.params.name, args:m.params.arguments, by:'app'});
+    var rr = await mcp('tools/call', m.params);
+    if(rr.result) H0.results.push(rr.result.structuredContent);
+    toApp(rr.error ? {jsonrpc:'2.0', id:m.id, error:rr.error} : {jsonrpc:'2.0', id:m.id, result:rr.result});
+  } else if(m.method === 'ui/open-link'){
+    H0.links.push(m.params.url); toApp({jsonrpc:'2.0', id:m.id, result:{}});
+  } else if(m.method === 'ui/notifications/size-changed'){
+    H0.sizes.push(m.params);
+    if(mode === 'inline' && m.params && m.params.height){ f.style.height = Math.min(640, Math.max(120, Math.ceil(m.params.height))) + 'px'; }
+  } else if(m.method === 'ui/request-display-mode'){
+    toApp({jsonrpc:'2.0', id:m.id, result:{mode:m.params.mode}});
+  } else if(m.id !== undefined && m.method){
+    toApp({jsonrpc:'2.0', id:m.id, error:{code:-32601, message:'not supported'}});
+  }
+});
+(function challengePanel(){
+  if(q.get('challenge') !== '1') return;
+  var box = document.getElementById('ch'); box.hidden = false;
+  var out = document.getElementById('out'), flags = document.getElementById('flags'), round = document.getElementById('round');
+  var veil = document.getElementById('veil'), plug = document.getElementById('plug'), plugback = document.getElementById('plugback');
+  var plugnote = document.getElementById('plugnote'), pipesEl = document.getElementById('pipes'), last = {scripted:null, down:null};
+  function show(t, cls){ out.textContent = t; out.className = cls || ''; }
+  function el(tag, cls, text){ var d = document.createElement(tag); if(cls) d.className = cls; if(text !== undefined) d.textContent = text; return d; }
+  async function api(path, body){
+    var r = await fetch(path, body === undefined ? {} : {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+    var j = await r.json(); if(!r.ok) throw new Error(j.error || 'failed'); return j;
+  }
+  function paint(st){
+    last.scripted = st.scripted || null;
+    round.textContent = st.round ? 'Round ' + st.round + ' - seed ' + st.seed + (st.scripted ? ' - scripted' : '') + ' - the answer is hidden' : '';
+    round.title = st.scripted || '';
+    var f = st.flags || {}, on = [];
+    if(f.ambient) on.push('outside tap running'); if(f.blackout) on.push('sensor link down'); if(f.hub_down) on.push('pipe controller down');
+    if((f.jammed || []).length) on.push('jammed: ' + f.jammed.join(', '));
+    if(st.addon_down) on.push('add-on not running');
+    flags.textContent = on.length ? 'Now: ' + on.join('; ') : '';
+    var sel = document.getElementById('jam'); if(!sel.options.length) (st.jammable || []).forEach(function(p){ var o = document.createElement('option'); o.value = p.id; o.textContent = p.label; sel.appendChild(o); });
+    setDown(!!st.addon_down);
+  }
+  function setDown(d){
+    H0.addonDown = d; veil.hidden = !d; plug.hidden = d; plugback.hidden = !d;
+    if(last.down !== d){ last.down = d; if(!d) plugnote.textContent = 'Pull the plug while a pipe is closed: the add-on stops, the controller does not.'; }
+  }
+  function paintCtl(c){
+    if(!c.pipes) return;
+    pipesEl.textContent = '';
+    c.pipes.forEach(function(p){
+      var away = p.position !== (p.rest || 'open');           // away from its safe state: a branch closed, or an outlet open
+      var li = el('li', away ? 'closed' : ''); li.appendChild(el('b', '', p.label));
+      var t = away ? (p.position + ', timer ' + (p.lease_left_s === null ? 'none (held)' : Math.ceil(p.lease_left_s) + ' s')) : p.position + (p.outlet ? ' (rests closed)' : '');
+      li.appendChild(document.createTextNode(t)); pipesEl.appendChild(li);
+    });
+    document.getElementById('scale').textContent = c.time_scale > 1 ? 'Seconds are simulated (x' + c.time_scale + ' time-lapse)' : '';
+    var lapsed = c.lapsed_since_plug_pulled || [];
+    if(c.addon_down){
+      plugnote.textContent = '';
+      plugnote.appendChild(el('div', '', 'The add-on has been silent for ' + Math.round(c.silent_s || 0) + ' s: no heartbeat, no renewals, no commands.'));
+      if(lapsed.length) plugnote.appendChild(el('div', 'good', '\u2713 The controller\'s own timer: ' + lapsed.map(function(l){ return l.label + (l.outlet ? ' closed' : ' reopened') + ' (+' + Math.round(l.after_s) + ' s)'; }).join(', ') + '.'));
+      var shut = c.pipes.filter(function(p){ return p.position !== (p.rest || 'open'); }).length;
+      if(!shut && lapsed.length) plugnote.appendChild(el('div', 'good', '✓ Everything is back to its safe state: pipes open, taps closed. The add-on never came back.'));
+    }
+  }
+  document.getElementById('new').onclick = async function(){
+    try{ var v = document.getElementById('seed').value.trim(); paint(await api('/challenge/new', v ? {seed:+v} : {})); clearVerdict(); show('New round. Start the leak hunt on the screen ("find my leak"), then try to fool it.'); }
+    catch(e){ show(e.message, 'bad'); }
+  };
+  document.getElementById('scripted').onclick = async function(){
+    try{ paint(await api('/challenge/new', {script:'tap_stops'})); clearVerdict(); show('Scripted case: a tap is already running. Start the hunt on the screen; the tap stops by itself at an unlucky moment. Then Reveal.'); }
+    catch(e){ show(e.message, 'bad'); }
+  };
+  Array.prototype.forEach.call(document.querySelectorAll('#chaos button,[data-a="jam"],[data-a="free"]'), function(b){
+    b.onclick = async function(){
+      try{ var a = b.getAttribute('data-a'); paint(await api('/challenge/chaos', {action:a, arg: a === 'jam' ? document.getElementById('jam').value : null})); show('Done: ' + b.textContent); }
+      catch(e){ show(e.message, 'bad'); }
+    };
+  });
+  plug.onclick = async function(){
+    try{ paint(await api('/challenge/chaos', {action:'addon_down'})); show('The add-on is dead. Watch the controller.'); }
+    catch(e){ show(e.message, 'bad'); }
+  };
+  plugback.onclick = async function(){
+    try{ paint(await api('/challenge/chaos', {action:'addon_up'})); show('The add-on is back. It will find its pipes where the controller left them.'); }
+    catch(e){ show(e.message, 'bad'); }
+  };
+  function clearVerdict(){
+    var v = document.getElementById('verdict'); v.className = 'empty'; v.textContent = '';
+    v.appendChild(el('h3', '', 'Verdict')); v.appendChild(el('p', '', 'Run the hunt, then press Reveal: what was hidden, what Leak Hunt said, and what the simplest rule says on the same readings.'));
+  }
+  function row(k, v, cls){ var d = el('div', 'vrow' + (cls ? ' ' + cls : '')); d.appendChild(el('span', 'k', k)); d.appendChild(el('span', 'v', v)); return d; }
+  function showVerdict(r){
+    var v = document.getElementById('verdict'); v.className = ''; v.textContent = '';
+    v.appendChild(el('h3', '', r.running ? 'Verdict so far (the hunt is still running)' : 'Verdict (the hunt has finished: ' + r.hunt_outcome + ')'));
+    v.appendChild(row('Hidden', r.truth.length ? r.truth.map(function(t){ return t.label + ', ' + t.lpm + ' L/min' + (t.above_limit ? '' : ' (below the sensor limit)'); }).join('; ') : 'no leak'));
+    var e = r.engine, n = r.naive;
+    v.appendChild(row('Leak Hunt', (e.grade === 'false_accusation' ? '✗ ' : e.found.length ? '✓ ' : '— ') + (e.found.length ? 'isolated to the water behind ' + e.found.join(' and ') : 'no source named'), e.grade === 'false_accusation' ? 'bad' : 'good'));
+    v.appendChild(row('Simplest rule', (n.grade === 'false_accusation' ? '✗ ' : '') + (n.found.length ? 'accuses ' + n.found.join(' and ') : 'names nothing') + (n.grade === 'false_accusation' ? ' - WRONG, ' + n.wrong.join(' and ') + ' has no leak' : n.same_as_engine ? ' (same answer here)' : ''), n.grade === 'false_accusation' ? 'bad' : ''));
+    v.appendChild(el('div', 'vsent', r.verdict));
+    var fine = 'Thrown at it: ' + (r.you_threw.length ? r.you_threw.map(function(c){ return c.action + (c.arg ? ' ' + c.arg : '') + ' @' + c.after_s + 's' + (c.by === 'script' ? ' (scripted)' : ''); }).join(', ') : 'nothing') + '. Round ' + r.round + ', seed ' + r.seed + '. ';
+    fine += 'The simplest rule is "the first drop wins", run on the same readings: a comparison, not a commercial product.';
+    if(last.scripted) fine += ' This timing was chosen; use New hidden round for a random one.';
+    v.appendChild(el('div', 'vfine', fine));
+  }
+  document.getElementById('reveal').onclick = async function(){
+    try{ var r = await api('/challenge/reveal'); show(''); showVerdict(r); }
+    catch(e){ show(e.message, 'bad'); }
+  };
+  function poll(){ api('/challenge/state').then(paint).catch(function(){}); }
+  function pollCtl(){ api('/challenge/hub').then(paintCtl).catch(function(){}); }
+  poll(); pollCtl(); setInterval(poll, 1000); setInterval(pollCtl, 1000);      // scripted events fire on the server, so the panel has to follow them
+})();
+(async function(){
+  var i = await mcp('initialize', {protocolVersion:'2025-11-25', capabilities:{extensions:{'io.modelcontextprotocol/ui':{mimeTypes:['text/html;profile=mcp-app']}}}, clientInfo:{name:'devhost', version:'0'}});
+  await mcp('notifications/initialized', {}, true);
+  var tl = await mcp('tools/list', {});              // as a host would: find the tool, then the screen it declares
+  H0.tools = ((tl.result && tl.result.tools) || []).map(function(t){ return {name:t.name, ui:t._meta && t._meta.ui && t._meta.ui.resourceUri}; });
+  wireLast['tools/list'] = '(' + H0.tools.length + ' tools)'; paintWire();
+  var mine = H0.tools.filter(function(t){ return t.name === first; })[0];
+  var res = await mcp('resources/read', {uri:(mine && mine.ui) || 'ui://leakhunt/console.html'});
+  f.srcdoc = res.result.contents[0].text;
+})();
+})();
+</script></body></html>

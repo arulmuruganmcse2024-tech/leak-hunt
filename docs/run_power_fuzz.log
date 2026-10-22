@@ -1,0 +1,4 @@
+runs=500 failures=0 named_the_right_plug=288 cases={'customer says stop': 94, 'guided': 163, 'add-on dies': 43, 'auto': 337}
+outcomes: {'stopped': 92, 'active': 42, 'partial': 272, 'upstream_remainder': 94}
+finished hunts with an always-on plug: {'named it': 272, 'named nothing': 16}
+  named nothing: plug draw / base load from 0.04 to 0.15; largest plug draw missed 22.3 W

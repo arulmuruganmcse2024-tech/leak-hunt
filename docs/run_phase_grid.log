@@ -1,0 +1,20 @@
+{
+ "runs": 410,
+ "start_offsets_s": [
+  0,
+  9
+ ],
+ "customer_delays_s": [
+  0,
+  40
+ ],
+ "timeline": "whole seconds",
+ "outside_changes_per_hunt": [
+  1
+ ],
+ "naive_false_accusations": 410,
+ "leak_hunt_false_accusations": 0,
+ "leak_hunt_right": 410,
+ "still_running_at_the_end": 0,
+ "seconds": 294
+}

@@ -1,0 +1,143 @@
+{
+ "scenarios": 150,
+ "seed0": 0,
+ "mutant": "no_backup",
+ "seconds": 32,
+ "violations": 11,
+ "by_check": {
+  "F7": 11
+ },
+ "outcomes": {
+  "done": 75,
+  "hub_unreachable": 15,
+  "meter_lost": 6,
+  "outlet_stuck": 11,
+  "branch_closed": 6,
+  "stopped": 9,
+  "flow_changed": 11,
+  "open_dead": 14,
+  "hub_unreachable_paused": 3
+ },
+ "taps": {
+  "hose": 28,
+  "tub": 81,
+  "ktap": 41
+ },
+ "outcomes_by_tap": {
+  "tub": {
+   "hub_unreachable": 10,
+   "outlet_stuck": 6,
+   "done": 39,
+   "meter_lost": 3,
+   "stopped": 6,
+   "flow_changed": 5,
+   "open_dead": 8,
+   "branch_closed": 3,
+   "hub_unreachable_paused": 1
+  },
+  "ktap": {
+   "done": 21,
+   "branch_closed": 2,
+   "flow_changed": 4,
+   "stopped": 3,
+   "hub_unreachable_paused": 2,
+   "open_dead": 2,
+   "hub_unreachable": 3,
+   "meter_lost": 1,
+   "outlet_stuck": 3
+  },
+  "hose": {
+   "done": 15,
+   "meter_lost": 2,
+   "hub_unreachable": 2,
+   "flow_changed": 2,
+   "open_dead": 4,
+   "outlet_stuck": 2,
+   "branch_closed": 1
+  }
+ },
+ "max_overfill_l_by_tap": {
+  "tub": 2.81,
+  "ktap": -0.32,
+  "hose": 0.01
+ },
+ "max_overfill_l": 2.81,
+ "max_overfill_l_clean": -0.28,
+ "max_overfill_l_no_outside_change": -0.2,
+ "max_overfill_l_with_outside_change": 2.81,
+ "max_said_vs_truth_l_when_done": 3.3800000000000026,
+ "max_said_vs_truth_l_when_done_clean": 0.07999999999998408,
+ "scenarios_with_an_outside_change": 39,
+ "scenarios_with_a_change_before_the_request": 25,
+ "max_overfill_l_change_before_request_rechecked": 0.03,
+ "max_overfill_l_change_before_request_not_rechecked": -0.34,
+ "fills_that_rechecked": 86,
+ "first_failures": [
+  {
+   "seed": 3,
+   "tap": "tub",
+   "outcome": "outlet_stuck",
+   "truth": 61.94,
+   "said": 60.62,
+   "target": 126.2,
+   "overfill": -64.26,
+   "changed": false,
+   "pre_changed": false,
+   "rechecked": true,
+   "allowance_l": 0.0,
+   "fault": "jam",
+   "violations": [
+    "F7 the tap jammed open and the branch above it was not closed"
+   ]
+  },
+  {
+   "seed": 96,
+   "tap": "tub",
+   "outcome": "outlet_stuck",
+   "truth": 64.98,
+   "said": 64.23,
+   "target": 65.4,
+   "overfill": -0.42,
+   "changed": false,
+   "pre_changed": false,
+   "rechecked": true,
+   "allowance_l": 0.0,
+   "fault": "jam",
+   "violations": [
+    "F7 the tap jammed open and the branch above it was not closed"
+   ]
+  },
+  {
+   "seed": 109,
+   "tap": "tub",
+   "outcome": "outlet_stuck",
+   "truth": 19.19,
+   "said": 17.09,
+   "target": 96.1,
+   "overfill": -76.91,
+   "changed": false,
+   "pre_changed": false,
+   "rechecked": false,
+   "allowance_l": 0.0,
+   "fault": "jam",
+   "violations": [
+    "F7 the tap jammed open and the branch above it was not closed"
+   ]
+  },
+  {
+   "seed": 111,
+   "tap": "hose",
+   "outcome": "outlet_stuck",
+   "truth": 68.63,
+   "said": 66.65,
+   "target": 94.8,
+   "overfill": -26.17,
+   "changed": false,
+   "pre_changed": true,
+   "rechecked": true,
+   "allowance_l": 0.6,
+   "fault": "jam",
+   "violations": [
+    "F7 the tap jammed open and the branch above it was not closed"
+   ]
+
