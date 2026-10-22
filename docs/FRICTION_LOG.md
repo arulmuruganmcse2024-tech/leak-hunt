@@ -21,7 +21,7 @@ Severity: **High** = blocked or would ship a wrong result; **Medium** = cost hou
 - **Actual:** the tools registered after construction were absent from `tools/list`, with no warning or error.
 - **Severity:** Medium (a tool the model never sees fails silently in production).
 - **Workaround:** register every Apps tool first and construct the server last (`addon/server.py`); a test lists the tools over
-  HTTP and expects the full set (`tests/test_server_http.py`); the dev host also checks that `tools/list` returns 13.
+  HTTP and expects the full set (`tests/test_server_http.py`); the dev host's top bar shows how many tools `tools/list` returned (14).
 - **Suggestion:** raise on registration after the extension has been bound, or make the extension's tool list live.
 
 ### 2. An empty PKCE `code_challenge` is accepted at `/authorize`
